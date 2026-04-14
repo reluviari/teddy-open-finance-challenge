@@ -128,9 +128,12 @@ teddy-open-finance-challenge/
 │       └── .env.example
 ├── docker-compose.yml        Stack completa (postgres + backend + frontend)
 ├── .env.example
+├── .cursor/rules/               Regras persistentes para a AI
 └── docs/
-    ├── teddy-challenge-scope.md
-    └── plan.md
+    ├── teddy-challenge-scope.md  Escopo do desafio
+    ├── plan.md                   Plano de fases
+    ├── ai-workflow.md            Fluxo de desenvolvimento com AI
+    └── teddy-challenge-agents-setup.md  Definição dos agentes
 ```
 
 ## Pré-requisitos
@@ -241,6 +244,21 @@ Usuário criado automaticamente via seed quando o banco está vazio.
 - **Frontend**: Vitest + Testing Library — testes de componente
 - Padrão Arrange-Act-Assert para testes unitários
 - Cobertura de estados: loading, error, success e empty
+
+## Desenvolvimento assistido por AI
+
+Este projeto foi construído com o apoio do [Cursor](https://cursor.com), um editor de código com inteligência artificial integrada. A AI não foi usada como gerador automático de código — ela atuou como um colaborador disciplinado dentro de um fluxo estruturado.
+
+### Como funcionou na prática
+
+O desenvolvimento seguiu um ciclo claro para cada fase do projeto:
+
+1. **Planejar antes de codar** — a cada fase, o primeiro passo era ler o escopo do desafio, entender o que já existia e propor um plano mínimo. Nenhum código era gerado antes de um plano aprovado.
+2. **Agentes especializados** — em vez de pedir tudo para um único assistente, o trabalho foi dividido entre agentes com papéis bem definidos: um para planejar, um para frontend, um para backend, um para infraestrutura e um para revisar o resultado contra o escopo.
+3. **Regras persistentes** — o projeto mantém um conjunto de regras em `.cursor/rules/` que guiam o comportamento da AI: arquitetura, convenções de código, estrutura do monorepo, qualidade e operação. Essas regras garantem consistência mesmo entre sessões diferentes.
+4. **Revisão antes de fechar** — ao final de cada fase, uma revisão compara a implementação com os requisitos do desafio para garantir que nada foi esquecido ou sobre-engenheirado.
+
+Para mais detalhes sobre o fluxo, os agentes e as regras, veja [`docs/ai-workflow.md`](./docs/ai-workflow.md).
 
 ## Escalabilidade (visão AWS)
 

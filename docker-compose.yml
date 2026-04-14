@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: teddy
+      POSTGRES_PASSWORD: teddy
+      POSTGRES_DB: teddy
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U teddy']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  back-end:
+    build:
+      context: .
+      dockerfile: apps/back-end/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: teddy
+      DATABASE_PASSWORD: teddy
+      DATABASE_NAME: teddy
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      BACKEND_PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  front-end:
+    build:
+      context: .
+      dockerfile: apps/front-end/Dockerfile
+    ports:
+      - '5173:5173'
+    depends_on:
+      - back-end
+
+volumes:
+  pgdata:

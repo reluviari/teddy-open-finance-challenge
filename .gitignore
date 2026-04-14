@@ -6,6 +6,3 @@ dist/
 coverage/
 .vite/
 .turbo/
-
-# Cursor AI agent-specific docs
-docs/teddy-challenge-agents-setup.md

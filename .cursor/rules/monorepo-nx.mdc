@@ -1,0 +1,38 @@
+---
+description: Nx monorepo rules for app boundaries, shared libraries, and scalable project structure
+alwaysApply: true
+---
+
+- This project is an Nx monorepo.
+- Keep frontend and backend as separate apps.
+- Keep apps independently runnable when required.
+- Prefer shared libraries only for stable, reusable, cross-cutting concerns.
+- Do not move code to shared libraries prematurely.
+- Avoid circular dependencies across apps and libraries.
+- Keep feature ownership explicit.
+- Favor predictable structure over clever abstractions.
+
+Recommended structure:
+- apps/front-end
+- apps/back-end
+- libs/shared-types only if truly reused
+- libs/shared-utils only if truly reused
+- libs/ui only if truly reused
+- libs/config only if truly reused
+
+Frontend:
+- Organize by feature under src/features.
+- Keep routing and layouts under src/app.
+- Keep shared UI, hooks, and utilities under src/shared only when reused by multiple features.
+
+Backend:
+- Organize by domain module under src.
+- Keep common concerns under src/common.
+- Keep config centralized.
+- Keep migrations explicit.
+
+Nx targets:
+- Prefer independent targets for lint, test, build, e2e, and serve.
+- Prefer frontend and backend pipelines to run independently.
+
+- If the challenge scope does not require a shared library, do not create one just to improve perceived architecture.

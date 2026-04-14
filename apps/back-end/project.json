@@ -1,0 +1,38 @@
+{
+  "name": "back-end",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/back-end/src",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "back-end:build"
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/back-end",
+        "main": "apps/back-end/src/main.ts",
+        "tsConfig": "apps/back-end/tsconfig.json",
+        "assets": []
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/back-end/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/back-end"],
+      "options": {
+        "jestConfig": "apps/back-end/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

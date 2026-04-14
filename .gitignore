@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.nx/
+.env
+*.log
+coverage/
+.vite/
+.turbo/
+
+# Cursor AI agent-specific docs
+docs/teddy-challenge-agents-setup.md

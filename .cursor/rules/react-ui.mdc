@@ -1,0 +1,72 @@
+---
+description: React, TypeScript, frontend architecture, accessibility, and UI implementation rules
+globs:
+  - 'apps/front-end/**/*.ts'
+  - 'apps/front-end/**/*.tsx'
+  - 'libs/**/*.ts'
+  - 'libs/**/*.tsx'
+alwaysApply: false
+---
+
+- Use React 18+ with hooks and functional components.
+- Use TypeScript with strict typing.
+- Avoid any.
+- Use English for all code identifiers and documentation.
+- Use kebab-case for files.
+- Use .tsx for components and .ts for utilities, types, configs, hooks, and stores.
+- Prefer named exports for components and utilities.
+- Use default export only for the main page-level component when appropriate.
+- Import order:
+  1. React and React-related imports
+  2. third-party libraries
+  3. internal absolute imports
+  4. relative imports
+- Use single quotes.
+- Indent with 2 spaces.
+- Use const for immutable values.
+- Use optional chaining and nullish coalescing when appropriate.
+
+- Prefer composition over inheritance.
+- Use custom hooks for reusable logic.
+- Use Context only when justified.
+- Use Error Boundaries for resilient UI.
+- Use Suspense for code splitting only when it improves UX.
+
+State management:
+- Local state: useState or useReducer
+- Shared client state: choose the simplest approach that fits the scope (Context is sufficient for auth)
+- Global state is optional and should only be introduced when clearly justified
+- Server state: prefer custom hooks with useState + useEffect + fetch unless a library is clearly justified
+- Form state: React Hook Form for forms with multiple fields and validation
+- URL state: React Router
+
+Optional frontend libraries:
+- React Hook Form is used for form state and validation
+- Zustand may be added only when shared client state goes beyond what Context handles
+- Other libraries must not be introduced unless clearly justified by the challenge scope
+
+Accessibility:
+- Use semantic HTML first.
+- Support keyboard navigation.
+- Add ARIA only when semantic HTML is insufficient.
+- Follow WCAG 2.1 AA practices.
+
+UI and UX:
+- Prefer simple and consistent interfaces.
+- Use subtle micro-interactions only when they improve usability.
+- Use skeletons or simple loading indicators where appropriate.
+- Use inline loading feedback for forms and buttons.
+- Show user-friendly error messages without exposing technical details.
+
+Security:
+- Validate and sanitize user input.
+- Avoid exposing sensitive data in client-side code.
+- Use environment variables for configuration.
+- Reflect authentication and authorization state clearly in routes and UI behavior.
+
+Architecture:
+- Organize frontend by feature under src/features.
+- Keep app-level concerns under src/app.
+- Keep shared UI, hooks, and utilities under src/shared only when reused across multiple features.
+- Do not introduce abstractions before the second real use case.
+- If the scope does not require a specific library, prefer the smallest maintainable solution.

@@ -1,0 +1,47 @@
+---
+description: Docker, auth, health, metrics, logs, README, and operational rules for the Teddy challenge
+alwaysApply: true
+---
+
+- The project must support local execution with Docker.
+- Frontend and backend should be independently runnable.
+- Prefer explicit environment variables and example env files.
+- Do not hardcode secrets.
+- Keep README instructions aligned with actual commands.
+
+Platform expectations:
+- Authentication uses JWT.
+- Backend exposes /healthz.
+- Backend exposes /metrics.
+- Swagger documentation must be available and accurate.
+- Logs should be structured and machine-readable.
+- Soft delete behavior must be preserved.
+- Audit timestamps must be explicit and consistent.
+
+Observability:
+- Prefer structured JSON logs.
+- Include enough context for debugging and request tracing.
+- Do not log secrets, tokens, or sensitive personal data.
+- Keep health checks fast and deterministic.
+- Keep metrics lightweight and standards-friendly.
+
+Persistence:
+- Use PostgreSQL as the primary database.
+- Keep migrations explicit.
+- Keep entity and DTO responsibilities separate.
+
+Security:
+- Validate input on both frontend and backend.
+- Apply authentication guards consistently.
+- Enforce authorization at the correct boundary.
+- Avoid leaking stack traces or internal details to clients.
+
+Delivery:
+- Ensure the root README explains:
+  - how to run the monorepo
+  - how to run frontend and backend
+  - available endpoints
+  - architecture overview
+  - why health, metrics, logs, and tests matter
+
+- Do not treat optional libraries as challenge requirements unless they are explicitly required by the scope.

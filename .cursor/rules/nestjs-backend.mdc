@@ -1,0 +1,83 @@
+---
+description: NestJS, TypeScript, validation, persistence, modular backend, and clean code rules
+globs:
+  - 'apps/back-end/**/*.ts'
+  - 'libs/**/*.ts'
+alwaysApply: false
+---
+
+- Use English for all code and documentation.
+- Always declare parameter and return types for exported functions and public methods.
+- Avoid any.
+- Use complete words instead of abbreviations except standard ones such as API, URL, DTO, JWT, ID, and ORM.
+- Use PascalCase for classes.
+- Use camelCase for variables, methods, and functions.
+- Use kebab-case for files and directories.
+- Use UPPERCASE for environment variables.
+- Avoid magic numbers and define constants.
+
+Functions:
+- Keep functions short and focused.
+- Start function names with verbs.
+- Use isX, hasX, canX for boolean-returning functions.
+- Prefer early returns.
+- Avoid deep nesting.
+- Prefer RO-RO when functions need multiple parameters.
+- Keep one level of abstraction per function.
+
+Architecture:
+- Use modular NestJS architecture.
+- One module per main domain or route.
+- Keep controllers focused on transport concerns.
+- Keep services focused on business rules.
+- Keep repositories focused on persistence.
+- Keep DTOs focused on transport and validation.
+- Do not put business rules in controllers.
+- Do not put persistence details in controllers.
+- Prefer explicit request and response contracts.
+
+Validation and boundaries:
+- Validate input at boundaries using class-validator or Zod.
+- Keep domain-safe transformations explicit.
+- Sanitize external input when needed.
+
+Shared structure:
+- Use a common module for reusable concerns:
+  - configs
+  - decorators
+  - DTOs
+  - guards
+  - interceptors
+  - services
+  - types
+  - utils
+  - validators
+
+Core platform behavior:
+- Use global filters for exception handling.
+- Use guards for authentication and authorization.
+- Use interceptors for cross-cutting concerns.
+- Use middlewares only when they are the right transport-level abstraction.
+
+Persistence:
+- Use TypeORM with PostgreSQL for this challenge.
+- Keep entities and DTOs separate.
+- Keep migrations explicit.
+- Model soft delete behavior clearly.
+- Keep audit timestamps explicit and consistent.
+
+API:
+- Keep Swagger decorators aligned with DTOs and actual responses.
+- Expose accurate docs for auth, clients, health, and metrics endpoints.
+- Keep auth and permission checks explicit.
+
+Error handling:
+- Throw exceptions for unexpected errors.
+- Catch exceptions only to:
+  - fix an expected problem
+  - add context
+  - map infrastructure failures into safe responses
+- Prefer global exception handling for the rest.
+
+Documentation:
+- Use JSDoc for public classes and methods.

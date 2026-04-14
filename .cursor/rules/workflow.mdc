@@ -1,0 +1,24 @@
+---
+description: Execution workflow rules for safe planning, minimal changes, and predictable implementation
+alwaysApply: true
+---
+
+- Inspect the existing codebase before proposing structural changes.
+- Read the challenge scope and relevant READMEs before planning implementation.
+- Follow current project conventions unless the user explicitly requests a change.
+- Prefer minimal, reversible changes.
+- Do not rewrite working code without a clear reason.
+- Before implementing, provide:
+  1. a short diagnosis
+  2. a concise implementation plan
+  3. the files likely to change
+- Break work into small steps.
+- Prefer editing existing files over introducing new abstractions too early.
+- When there are trade-offs, recommend one option and mention the simpler fallback.
+- If a request can be answered without code, answer without code first.
+- State uncertainty clearly instead of inventing missing project details.
+- Prefer readable solutions over clever solutions.
+- Use early returns to reduce nesting.
+- Name UI handlers with the handle prefix, such as handleSubmit, handleClick, and handleChange.
+- After implementing relevant changes, suggest a quick validation path.
+- Challenge scope requirements take priority over preferred libraries or personal stack defaults.

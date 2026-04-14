@@ -1,0 +1,38 @@
+---
+description: Testing, validation, linting, and delivery quality rules for frontend and backend
+globs:
+  - '**/*.ts'
+  - '**/*.tsx'
+alwaysApply: false
+---
+
+- Write tests for every new public behavior when practical and aligned with the challenge scope.
+- Prefer unit tests for pure logic and services.
+- Prefer component tests for UI behavior.
+- Prefer integration tests for feature flows.
+- Prefer e2e tests for critical user journeys and API modules when justified by time and scope.
+- Follow Arrange-Act-Assert in unit tests.
+- Follow Given-When-Then in e2e and acceptance tests.
+- Name test variables clearly:
+  - inputX
+  - mockX
+  - actualX
+  - expectedX
+- Mock expensive or unstable dependencies.
+- Do not mock cheap and deterministic code unless isolation is required.
+- Test loading, error, success, and empty states.
+- Test authorization-sensitive behavior.
+- Test form validation, DTO validation, and soft delete behavior.
+- Prefer readable tests over over-abstracted test helpers.
+- Keep linting and formatting aligned with the project configuration.
+- Prefer semantic commits:
+  - feat
+  - fix
+  - refactor
+  - test
+  - docs
+  - chore
+
+CI/CD (diferencial):
+- CI/CD with Nx + GitHub Actions is a challenge differentiator, not a requirement.
+- If implemented, prefer separate workflows for frontend and backend.

@@ -1,0 +1,30 @@
+---
+description: Full-stack architecture rules for boundaries, contracts, and responsibility separation
+alwaysApply: true
+---
+
+- Treat frontend and backend as separate modules with explicit contracts.
+- Frontend must not depend on backend implementation details.
+- Prefer typed request and response contracts.
+- Keep business rules in services or use-cases, not in controllers, DTOs, or UI components.
+- Keep validation close to boundaries:
+  - frontend: form and schema validation
+  - backend: DTO or schema validation
+- Prefer composition over inheritance.
+- Prefer feature-based organization on the frontend.
+- Prefer module-based organization on the backend.
+- Avoid duplicating validation logic when shared schemas or shared types can be used safely.
+- Every new feature should define:
+  - input contract
+  - output contract
+  - loading state
+  - error state
+  - empty state
+  - authorization rules when applicable
+- Avoid leaking infrastructure concerns into domain logic.
+- Keep controllers thin.
+- Keep pages thin.
+- Prefer explicit dependencies over hidden coupling.
+- Favor predictable folder structure over clever abstractions.
+- When the challenge scope does not require a specific library, prefer the simplest maintainable implementation.
+- Challenge requirements take precedence over personal stack preferences.

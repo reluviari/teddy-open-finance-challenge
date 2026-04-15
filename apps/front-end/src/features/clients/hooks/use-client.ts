@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { api } from '@/shared/lib/api';
 import { useAuth } from '@/features/auth';
 import { ClientResponse } from '../types';
@@ -15,9 +15,12 @@ export function useClient(id: string): UseClientResult {
   const [data, setData] = useState<ClientResponse | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const fetchedRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!user || !id) return;
+    if (fetchedRef.current === id) return;
+    fetchedRef.current = id;
 
     setIsLoading(true);
     setError(null);

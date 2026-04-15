@@ -85,7 +85,7 @@ export function DashboardPage() {
         {data.latestClients.length === 0 ? (
           <p className="text-gray-500">Nenhum cliente cadastrado.</p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-100">
+          <div className="overflow-x-auto rounded-lg border border-gray-100">
             <table className="min-w-full table-fixed divide-y divide-gray-100">
               <thead className="bg-[#FDE8D8]">
                 <tr>

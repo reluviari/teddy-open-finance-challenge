@@ -47,7 +47,7 @@ export function DeleteModal({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 ${closing ? 'bg-black/0 opacity-0' : 'bg-black/40 opacity-100'}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center px-4 transition-opacity duration-500 ${closing ? 'bg-black/0 opacity-0' : 'bg-black/40 opacity-100'}`}
       onClick={handleClose}
     >
       <div

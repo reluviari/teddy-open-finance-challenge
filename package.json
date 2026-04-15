@@ -2,6 +2,7 @@
   "name": "teddy-open-finance-challenge",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "workspaces": [
     "apps/*",
     "libs/*"

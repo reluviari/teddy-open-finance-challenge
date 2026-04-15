@@ -130,7 +130,7 @@ teddy-open-finance-challenge/
 │       │   │   ├── auth/     Login, protected routes, auth context
 │       │   │   ├── clients/  List, detail, create/edit form
 │       │   │   └── dashboard/ Totals, latest clients, chart
-│       │   └── shared/       API client
+│       │   └── shared/       API client, formatCurrency, formatDateTime
 │       ├── Dockerfile
 │       ├── docker-compose.yml
 │       └── .env.example
@@ -186,7 +186,7 @@ cd apps/front-end && docker compose up --build   # frontend (requer backend roda
 | `admin@teddy.com` | `password123` |
 
 
-Usuário criado automaticamente via seed quando o banco está vazio.
+Usuário criado automaticamente via seed quando o banco está vazio. Além disso, 67 clientes de exemplo são inseridos automaticamente na primeira execução, com nomes, salários, valores de empresa e datas de cadastro variados.
 
 ## Modo de desenvolvimento
 
@@ -273,7 +273,7 @@ O desenvolvimento seguiu um ciclo claro para cada fase do projeto:
 3. **Regras persistentes** — o projeto mantém um conjunto de regras em `.cursor/rules/` que guiam o comportamento da AI: arquitetura, convenções de código, estrutura do monorepo, qualidade e operação. Essas regras garantem consistência mesmo entre sessões diferentes.
 4. **Revisão antes de fechar** — ao final de cada fase, uma revisão compara a implementação com os requisitos do desafio para garantir que nada foi esquecido ou sobre-engenheirado.
 
-Para mais detalhes sobre o fluxo, os agentes e as regras, veja `docs/ai-workflow.md ` e `docs/teddy-challenge-agents-setup.md `
+Para mais detalhes sobre o fluxo, os agentes e as regras, veja `docs/ai-workflow.md`  e `docs/teddy-challenge-agents-setup.md` 
 
 ## Escalabilidade (visão AWS)
 

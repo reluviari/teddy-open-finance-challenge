@@ -41,7 +41,7 @@ export function ClientDetailPage() {
       </button>
 
       <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-2xl font-bold text-gray-900">{client.name}</h1>
           <span className="rounded-full bg-[#FDE8D8] px-3 py-1 text-sm text-teddy-orange">
             {client.viewCount} {client.viewCount === 1 ? 'visualização' : 'visualizações'}
@@ -69,7 +69,7 @@ export function ClientDetailPage() {
           </div>
         </dl>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <button
             onClick={() => navigate('/clients')}
             className="rounded-[4px] bg-teddy-orange px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-teddy-orange-hover"

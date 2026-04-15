@@ -52,7 +52,7 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40" onClick={onClose}>
       <div
         className="w-full max-w-[420px] rounded-[4px] bg-white p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}

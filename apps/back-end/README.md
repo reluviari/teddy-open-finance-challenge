@@ -77,7 +77,7 @@ cd apps/back-end
 docker compose up --build
 ```
 
-Isso sobe PostgreSQL + backend em containers. As migrations rodam automaticamente e um usuário seed é criado.
+Isso sobe PostgreSQL + backend em containers. As migrations rodam automaticamente, um usuário seed é criado e 67 clientes de exemplo são inseridos.
 
 ### 3. Verificar que está rodando
 
@@ -93,7 +93,7 @@ curl http://localhost:3000/healthz
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@teddy.com","password":"password123"}'
-# Deve retornar: {"accessToken":"..."}
+# Deve retornar: {"accessToken":"...","name":"Administrador"}
 ```
 
 ### Credenciais padrão
@@ -120,8 +120,8 @@ O servidor inicia em http://localhost:3000 com watch mode. Alterações no códi
 
 | Módulo | Responsabilidade |
 |---|---|
-| `auth/` | Login, JWT strategy, guard, User entity, seed |
-| `clients/` | CRUD com soft delete, view counter, dashboard stats |
+| `auth/` | Login, JWT strategy, guard, User entity (com name), seed |
+| `clients/` | CRUD com soft delete, view counter, dashboard stats, seed de 67 clientes |
 | `health/` | `GET /healthz` |
 | `metrics/` | `GET /metrics` (Prometheus) |
 | `common/` | Exception filter, JWT guard, logging interceptor, JSON logger |

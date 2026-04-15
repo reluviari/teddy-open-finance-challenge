@@ -104,7 +104,7 @@ O dev server inicia em http://localhost:5173. O Vite proxy redireciona chamadas 
 | Feature | Descrição |
 |---|---|
 | `features/auth` | Login com React Hook Form, auth context, protected routes |
-| `features/clients` | Lista, detalhe (com contador), create/edit form |
+| `features/clients` | Lista, detalhe (com contador), create/edit form (modal), clientes selecionados |
 | `features/dashboard` | Cards de totais, tabela de últimos clientes, gráfico mensal |
 
 ## Rotas
@@ -113,10 +113,9 @@ O dev server inicia em http://localhost:5173. O Vite proxy redireciona chamadas 
 |---|---|---|
 | `/login` | Página de login | Não |
 | `/dashboard` | Dashboard com totais e gráfico | Sim |
-| `/clients` | Lista de clientes | Sim |
-| `/clients/new` | Cadastro de cliente | Sim |
+| `/clients` | Lista de clientes (criar/editar via modal) | Sim |
+| `/clients/selected` | Clientes selecionados | Sim |
 | `/clients/:id` | Detalhe com contador de views | Sim |
-| `/clients/:id/edit` | Edição de cliente | Sim |
 
 ## Variáveis de ambiente
 

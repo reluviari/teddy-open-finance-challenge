@@ -9,7 +9,7 @@ interface ClientsToolbarProps {
 
 export function ClientsToolbar({ total, perPage, onPerPageChange }: ClientsToolbarProps) {
   return (
-    <div className="mb-5 flex items-center justify-between">
+    <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
       <ClientsCount total={total} />
       <ClientsPerPageSelect value={perPage} onChange={onPerPageChange} />
     </div>

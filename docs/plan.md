@@ -81,11 +81,15 @@
 
 ---
 
-## Fase 7 — Revisar Swagger
+## Fase 7 — Revisar Swagger ✅
 
 - Conferir que todos os endpoints têm decorators `@ApiOperation`, `@ApiResponse`
 - Conferir que respostas correspondem aos DTOs reais
 - Conferir `@ApiBearerAuth` em rotas protegidas
+- Adicionado `@ApiResponse(401)` na classe do clients controller
+- Adicionado `@ApiResponse(400)` em POST/PUT clients e POST auth/login
+- Adicionado `@ApiResponse(200)` com schema tipado em healthz e metrics
+- Criado `ChartDataItemDto` para tipar chartData no dashboard
 
 ---
 
@@ -96,7 +100,7 @@
 
 ---
 
-## Fase 9 — Melhorar diagramas Mermaid
+## Fase 9 — Melhorar diagramas Mermaid ✅
 
 - Diagrama no README raiz
 - Diagrama no README do back-end
@@ -104,10 +108,11 @@
 
 ---
 
-## Fase 10 — Git e commits semânticos
+## Fase 10 — Git e commits semânticos ✅
 
 - Inicializar repositório git
-- Criar commit inicial semântico
+- Commits semânticos por fase
+- Repositório público no GitHub
 
 ---
 
@@ -147,10 +152,12 @@
 
 ---
 
-## Fase 14 — Verificar responsividade
+## Fase 14 — Verificar responsividade ✅
 
-- Testar layout em mobile/tablet
-- Verificar que todas as páginas são navegáveis em telas pequenas
+- Tabela do dashboard: overflow-x-auto para scroll horizontal em mobile
+- Modais (criar/editar/excluir): margem lateral (px-4) em telas estreitas
+- Toolbar de clientes: flex-wrap para empilhar em mobile
+- Detail page: flex-wrap no header e botões para nomes longos
 
 ---
 

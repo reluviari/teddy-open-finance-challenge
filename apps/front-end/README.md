@@ -161,6 +161,12 @@ npm run test:e2e:front
 
 Pipeline dedicado via GitHub Actions (`.github/workflows/frontend.yml`), acionado em push e pull request na branch `main` quando arquivos em `apps/front-end/**` são alterados.
 
-**Steps:** `npm ci` → `nx lint front-end` → `format:check` → `nx test front-end` → `nx build front-end`
+**Steps:** `npm ci` → `nx lint front-end` → `format:check` → `nx test front-end` (16 componentes) → `nx build front-end`
 
-O pipeline executa os testes de componente (16 testes) e verifica formatação automaticamente. Testes E2E com Playwright não rodam no CI pois dependem da stack completa — devem ser executados localmente com `npm run test:e2e:front`.
+### Pre-push hook
+
+O hook `.githooks/pre-push` executa os testes de componente do frontend automaticamente antes de cada `git push`.
+
+### Por que os testes E2E não rodam no CI nem no pre-push
+
+Os testes E2E do frontend usam Playwright com Chromium e dependem da stack completa rodando (PostgreSQL + backend + frontend com seed de dados). Subir 3 containers, esperar healthcheck, instalar o Chromium e executar os testes adicionaria 3-5 minutos ao pipeline e ao pre-push — complexidade e tempo desproporcionais para um diferencial. Esses testes devem ser executados localmente com `npm run test:e2e:front` antes de releases ou após mudanças significativas na UI.

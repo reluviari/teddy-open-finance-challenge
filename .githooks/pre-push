@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo ""
+echo "=== Pre-push: running tests ==="
+echo ""
+
+echo "[1/3] Backend unit tests..."
+npx nx test back-end --skip-nx-cache
+if [ $? -ne 0 ]; then
+  echo "❌ Backend unit tests failed. Push aborted."
+  exit 1
+fi
+
+echo ""
+echo "[2/3] Frontend component tests..."
+npx nx test front-end --skip-nx-cache
+if [ $? -ne 0 ]; then
+  echo "❌ Frontend component tests failed. Push aborted."
+  exit 1
+fi
+
+echo ""
+echo "[3/3] Backend E2E tests (requires PostgreSQL)..."
+npm run test:e2e:back 2>/dev/null
+if [ $? -ne 0 ]; then
+  echo "⚠️  Backend E2E tests failed or PostgreSQL not available."
+  echo "   If PostgreSQL is not running, start it with: docker compose up -d postgres"
+  echo "   Push aborted."
+  exit 1
+fi
+
+echo ""
+echo "✅ All tests passed. Pushing..."

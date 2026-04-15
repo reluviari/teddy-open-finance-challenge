@@ -188,6 +188,10 @@ npm run test:e2e:back
 
 Pipeline dedicado via GitHub Actions (`.github/workflows/backend.yml`), acionado em push e pull request na branch `main` quando arquivos em `apps/back-end/**` são alterados.
 
-**Steps:** `npm ci` → `nx lint back-end` → `nx test back-end` → `nx build back-end`
+**Steps:** `npm ci` → `nx lint back-end` → `nx test back-end` (26 unitários) → `test:e2e:back` (15 E2E) → `nx build back-end`
 
-O pipeline executa os testes unitários (26 testes) automaticamente. Testes E2E não rodam no CI pois dependem de PostgreSQL — devem ser executados localmente com `npm run test:e2e:back`.
+O pipeline sobe um service container PostgreSQL 16 para executar os testes E2E contra a API real com supertest. Todas as 4 etapas (lint, unitários, E2E, build) precisam passar para o pipeline ficar verde.
+
+### Pre-push hook
+
+O hook `.githooks/pre-push` executa os testes unitários e E2E do backend automaticamente antes de cada `git push`. Se o PostgreSQL não estiver rodando, o push é bloqueado — suba o banco com `docker compose up -d postgres` antes de fazer push.

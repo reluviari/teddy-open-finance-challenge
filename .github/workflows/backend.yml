@@ -18,6 +18,30 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: teddy
+          POSTGRES_PASSWORD: teddy
+          POSTGRES_DB: teddy
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      DATABASE_USER: teddy
+      DATABASE_PASSWORD: teddy
+      DATABASE_NAME: teddy
+      JWT_SECRET: ci-test-secret
+      JWT_EXPIRES_IN: 1h
+
     steps:
       - uses: actions/checkout@v4
 
@@ -31,8 +55,11 @@ jobs:
       - name: Lint
         run: npx nx lint back-end
 
-      - name: Test
+      - name: Unit tests
         run: npx nx test back-end
+
+      - name: E2E tests
+        run: npm run test:e2e:back
 
       - name: Build
         run: npx nx build back-end

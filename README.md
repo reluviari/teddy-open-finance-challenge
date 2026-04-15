@@ -182,6 +182,7 @@ teddy-open-finance-challenge/
 ├── docker-compose.yml        Stack completa (postgres + backend + frontend)
 ├── .env.example
 ├── .github/workflows/           CI pipelines (GitHub Actions)
+├── .githooks/pre-push           Pre-push hook (testes antes do push)
 ├── .cursor/rules/               Regras persistentes para a AI
 └── docs/
     ├── teddy-challenge-scope.md  Escopo do desafio
@@ -221,10 +222,26 @@ O projeto utiliza GitHub Actions com pipelines separados por app, acionados auto
 
 | Workflow | Arquivo | Trigger (path filter) | Steps |
 |---|---|---|---|
-| **Backend CI** | `.github/workflows/backend.yml` | `apps/back-end/**` | lint → test → build |
-| **Frontend CI** | `.github/workflows/frontend.yml` | `apps/front-end/**` | lint → format check → test → build |
+| **Backend CI** | `.github/workflows/backend.yml` | `apps/back-end/**` | lint → unit tests → E2E tests → build |
+| **Frontend CI** | `.github/workflows/frontend.yml` | `apps/front-end/**` | lint → format check → component tests → build |
 
-Cada pipeline executa os targets Nx do respectivo app (`nx lint`, `nx test`, `nx build`), garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa. Dependências são cacheadas via `actions/setup-node` com cache npm.
+O pipeline do backend sobe um service container PostgreSQL para executar os testes E2E (15 testes com supertest contra a API real). Cada pipeline usa targets Nx isolados e path filters, garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa.
+
+### Pre-push hook
+
+Um git hook pre-push (`.githooks/pre-push`) executa automaticamente antes de cada `git push`:
+
+1. Testes unitários do backend (26 testes)
+2. Testes de componente do frontend (16 testes)
+3. Testes E2E do backend (15 testes — requer PostgreSQL rodando)
+
+Se qualquer etapa falhar, o push é bloqueado. O hook é ativado automaticamente após `npm install` via script `prepare`.
+
+### Por que os testes E2E do frontend não rodam no CI nem no pre-push
+
+Os testes E2E do frontend usam Playwright com Chromium e dependem da stack completa rodando (PostgreSQL + backend + frontend). Subir essa infraestrutura no CI ou no pre-push adicionaria complexidade e tempo desproporcionais ao ganho. Esses testes são executados manualmente em ambiente local com `npm run test:e2e:front` antes de releases ou após mudanças significativas na UI.
+
+### CI vs CD
 
 O escopo atual cobre CI (validação automatizada). CD (deploy automatizado) não foi implementado, pois não há infraestrutura de deploy configurada — a seção [Escalabilidade](#escalabilidade-visão-aws) descreve como a aplicação poderia ser implantada em cloud.
 

@@ -7,7 +7,7 @@
     "libs/*"
   ],
   "scripts": {
-    "prepare": "git config core.hooksPath .githooks",
+    "prepare": "[ -d .git ] && git config core.hooksPath .githooks || true",
     "dev:front": "npx nx serve front-end",
     "dev:back": "npx nx serve back-end",
     "build:front": "npx nx build front-end",

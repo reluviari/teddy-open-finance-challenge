@@ -1,13 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useLogin } from './hooks/use-login';
 import { useAuth } from './auth-context';
 import { LoginRequest } from './types';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useAuth();
   const loginMutation = useLogin();
+  const sessionExpired = searchParams.get('expired') === 'true';
 
   const {
     register,
@@ -19,7 +21,7 @@ export function LoginPage() {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
         login(data.email, response.accessToken);
-        navigate('/clients', { replace: true });
+        navigate('/dashboard', { replace: true });
       },
     });
   };
@@ -27,15 +29,15 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-[380px] space-y-6 rounded-[4px] bg-white p-8 shadow-md">
-        <div className="text-center">
-          <h1 className="text-[32px] font-bold leading-none">
-            <span className="text-teddy-orange">t</span>
-            <span className="text-gray-800">eddy</span>
-          </h1>
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-wider text-gray-400">
-            open finance
-          </p>
+        <div className="flex justify-center">
+          <img src="/teddy-logo.svg" alt="Teddy Open Finance" className="h-12" />
         </div>
+
+        {sessionExpired && (
+          <div className="rounded-[4px] border border-teddy-orange/30 bg-[#FDE8D8] px-4 py-3 text-center text-[13px] text-gray-700">
+            Sua sessão expirou. Faça login para continuar.
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
           <div>
@@ -43,6 +45,7 @@ export function LoginPage() {
               id="email"
               type="email"
               autoComplete="email"
+              aria-label="E-mail"
               placeholder="Digite seu e-mail:"
               className="w-full rounded-[4px] border border-gray-300 px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:border-teddy-orange focus:outline-none focus:ring-1 focus:ring-teddy-orange"
               {...register('email', { required: 'E-mail é obrigatório' })}
@@ -57,6 +60,7 @@ export function LoginPage() {
               id="password"
               type="password"
               autoComplete="current-password"
+              aria-label="Senha"
               placeholder="Digite sua senha:"
               className="w-full rounded-[4px] border border-gray-300 px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:border-teddy-orange focus:outline-none focus:ring-1 focus:ring-teddy-orange"
               {...register('password', {

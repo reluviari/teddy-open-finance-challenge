@@ -25,7 +25,7 @@ describe('ClientsController', () => {
   });
 
   it('should delegate create to service', async () => {
-    const inputDto = { name: 'John', email: 'j@t.com', phone: '11999', salary: 5000, companyValue: 100000 };
+    const inputDto = { name: 'John', email: 'j@t.com', salary: 5000, companyValue: 100000 };
     const expectedResponse = { id: 'uuid-1', ...inputDto, viewCount: 0, createdAt: new Date(), updatedAt: new Date() };
     mockService.create.mockResolvedValue(expectedResponse);
 
@@ -73,7 +73,7 @@ describe('ClientsController', () => {
   });
 
   it('should delegate getDashboardStats to service', async () => {
-    const expectedResponse = { totalClients: 5, totalSalary: 25000, totalCompanyValue: 500000, latestClients: [], chartData: [] };
+    const expectedResponse = { totalClients: 5, totalCompanyValue: 500000, latestClients: [], chartData: [] };
     mockService.getDashboardStats.mockResolvedValue(expectedResponse);
 
     const actual = await controller.getDashboardStats();

@@ -12,7 +12,7 @@ import {
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 16;
-const LATEST_CLIENTS_LIMIT = 5;
+const LATEST_CLIENTS_LIMIT = 10;
 
 /** Handles all client business logic including CRUD, soft delete, and view counting. */
 @Injectable()
@@ -89,7 +89,6 @@ export class ClientsService {
     const totals = await this.clientRepository
       .createQueryBuilder('c')
       .select('COUNT(*)', 'totalClients')
-      .addSelect('COALESCE(SUM(c.salary), 0)', 'totalSalary')
       .addSelect('COALESCE(SUM(c.companyValue), 0)', 'totalCompanyValue')
       .where('c.deletedAt IS NULL')
       .getRawOne();
@@ -110,7 +109,6 @@ export class ClientsService {
 
     return {
       totalClients: Number(totals.totalClients),
-      totalSalary: Number(totals.totalSalary),
       totalCompanyValue: Number(totals.totalCompanyValue),
       latestClients: latestRaw.map((c) => this.toResponse(c)),
       chartData: chartRaw.map((r) => ({ month: r.month, count: Number(r.count) })),
@@ -122,7 +120,6 @@ export class ClientsService {
       id: client.id,
       name: client.name,
       email: client.email,
-      phone: client.phone,
       salary: Number(client.salary),
       companyValue: Number(client.companyValue),
       viewCount: client.viewCount,

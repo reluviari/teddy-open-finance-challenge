@@ -11,9 +11,6 @@ export class ClientResponseDto {
   email: string;
 
   @ApiProperty()
-  phone: string;
-
-  @ApiProperty()
   salary: number;
 
   @ApiProperty()

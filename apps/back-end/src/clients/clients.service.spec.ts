@@ -11,7 +11,6 @@ describe('ClientsService', () => {
     id: 'uuid-1',
     name: 'John Doe',
     email: 'john@example.com',
-    phone: '11999999999',
     salary: 5000,
     companyValue: 100000,
     viewCount: 0,
@@ -44,13 +43,11 @@ describe('ClientsService', () => {
     const inputCreate = {
       name: 'John Doe',
       email: 'john@example.com',
-      phone: '11999999999',
       salary: 5000,
       companyValue: 100000,
     };
 
     it('should create and return a client', async () => {
-      mockRepository.findOne.mockResolvedValue(null);
       mockRepository.create.mockReturnValue(mockClient);
       mockRepository.save.mockResolvedValue(mockClient);
 
@@ -59,12 +56,6 @@ describe('ClientsService', () => {
       expect(actual.id).toBe(mockClient.id);
       expect(actual.name).toBe(inputCreate.name);
       expect(mockRepository.save).toHaveBeenCalled();
-    });
-
-    it('should throw ConflictException when email already exists', async () => {
-      mockRepository.findOne.mockResolvedValue(mockClient);
-
-      await expect(service.create(inputCreate)).rejects.toThrow(ConflictException);
     });
   });
 
@@ -125,16 +116,6 @@ describe('ClientsService', () => {
       mockRepository.findOne.mockResolvedValue(null);
 
       await expect(service.update('non-existent', inputUpdate)).rejects.toThrow(NotFoundException);
-    });
-
-    it('should throw ConflictException when updating to an existing email', async () => {
-      mockRepository.findOne
-        .mockResolvedValueOnce({ ...mockClient })
-        .mockResolvedValueOnce({ ...mockClient, id: 'uuid-2' });
-
-      await expect(
-        service.update('uuid-1', { email: 'john@example.com' }),
-      ).rejects.toThrow(ConflictException);
     });
   });
 

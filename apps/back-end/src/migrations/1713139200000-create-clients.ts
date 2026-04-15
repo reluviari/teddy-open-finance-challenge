@@ -15,7 +15,6 @@ export class CreateClients1713139200000 implements MigrationInterface {
           },
           { name: 'name', type: 'varchar' },
           { name: 'email', type: 'varchar', isNullable: true },
-          { name: 'phone', type: 'varchar', isNullable: true },
           { name: 'salary', type: 'decimal', precision: 12, scale: 2 },
           { name: 'companyValue', type: 'decimal', precision: 12, scale: 2 },
           { name: 'viewCount', type: 'int', default: 0 },

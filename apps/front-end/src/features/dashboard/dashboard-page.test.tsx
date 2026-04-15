@@ -56,7 +56,6 @@ describe('DashboardPage', () => {
     mockUseDashboard.mockReturnValue({
       data: {
         totalClients: 0,
-        totalSalary: 0,
         totalCompanyValue: 0,
         latestClients: [],
         chartData: [],
@@ -76,14 +75,12 @@ describe('DashboardPage', () => {
     mockUseDashboard.mockReturnValue({
       data: {
         totalClients: 5,
-        totalSalary: 25000,
         totalCompanyValue: 500000,
         latestClients: [
           {
             id: '1',
             name: 'Jane Doe',
             email: 'jane@example.com',
-            phone: '11999999999',
             salary: 5000,
             companyValue: 100000,
             viewCount: 2,
@@ -102,6 +99,5 @@ describe('DashboardPage', () => {
 
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByText('Jane Doe')).toBeInTheDocument();
-    expect(screen.getByText('jane@example.com')).toBeInTheDocument();
   });
 });

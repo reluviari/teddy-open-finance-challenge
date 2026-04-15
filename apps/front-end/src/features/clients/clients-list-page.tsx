@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useClients } from './hooks/use-clients';
 import { useCreateClient, useUpdateClient, useDeleteClient } from './hooks/use-client-mutations';
 import { useSelectedClients } from './selected-clients-context';
@@ -18,11 +18,12 @@ export function ClientsListPage() {
   const createMutation = useCreateClient();
   const updateMutation = useUpdateClient();
   const deleteMutation = useDeleteClient();
-  const { selectedClients, addClient } = useSelectedClients();
+  const { selectedClients, addClient, updateClient, removeClient } = useSelectedClients();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingClient, setEditingClient] = useState<ClientResponse | null>(null);
   const [deletingClient, setDeletingClient] = useState<ClientResponse | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const clients = data?.data ?? [];
   const totalClients = data?.total ?? 0;
@@ -43,6 +44,7 @@ export function ClientsListPage() {
       { id: editingClient.id, data: formData },
       {
         onSuccess: () => {
+          updateClient({ ...editingClient, ...formData });
           setEditingClient(null);
           refetch();
         },
@@ -52,9 +54,14 @@ export function ClientsListPage() {
 
   const handleDelete = () => {
     if (!deletingClient) return;
-    deleteMutation.mutate(deletingClient.id, {
+    const clientName = deletingClient.name;
+    const clientId = deletingClient.id;
+    deleteMutation.mutate(clientId, {
       onSuccess: () => {
+        removeClient(clientId);
         setDeletingClient(null);
+        setSuccessMessage(`Cliente "${clientName}" excluído com sucesso.`);
+        setTimeout(() => setSuccessMessage(null), 4000);
         refetch();
       },
     });
@@ -86,6 +93,12 @@ export function ClientsListPage() {
 
   return (
     <>
+      {successMessage && (
+        <div className="mb-4 rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-[14px] text-green-700">
+          {successMessage}
+        </div>
+      )}
+
       <ClientsToolbar
         total={totalClients}
         perPage={perPage}

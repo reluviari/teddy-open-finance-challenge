@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useClient } from './hooks/use-client';
+import { formatCurrency, formatDateTime } from '@/shared/lib/format';
 
 export function ClientDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -34,58 +35,50 @@ export function ClientDetailPage() {
     <div className="mx-auto max-w-2xl p-6">
       <button
         onClick={() => navigate('/clients')}
-        className="mb-4 text-sm text-blue-600 hover:underline"
+        className="mb-4 text-sm text-teddy-orange hover:underline"
       >
-        &larr; Voltar para lista
+        &larr; Voltar para lista de clientes
       </button>
 
       <div className="rounded-lg border border-gray-200 bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{client.name}</h1>
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
+          <span className="rounded-full bg-[#FDE8D8] px-3 py-1 text-sm text-teddy-orange">
             {client.viewCount} {client.viewCount === 1 ? 'visualização' : 'visualizações'}
           </span>
         </div>
 
         <dl className="space-y-3">
           <div className="flex justify-between border-b border-gray-100 pb-2">
-            <dt className="text-sm font-medium text-gray-500">E-mail</dt>
-            <dd className="text-sm text-gray-900">{client.email}</dd>
-          </div>
-          <div className="flex justify-between border-b border-gray-100 pb-2">
-            <dt className="text-sm font-medium text-gray-500">Telefone</dt>
-            <dd className="text-sm text-gray-900">{client.phone}</dd>
-          </div>
-          <div className="flex justify-between border-b border-gray-100 pb-2">
             <dt className="text-sm font-medium text-gray-500">Salário</dt>
             <dd className="text-sm text-gray-900">
-              {client.salary.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              {formatCurrency(client.salary)}
             </dd>
           </div>
           <div className="flex justify-between border-b border-gray-100 pb-2">
             <dt className="text-sm font-medium text-gray-500">Valor da empresa</dt>
             <dd className="text-sm text-gray-900">
-              {client.companyValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              {formatCurrency(client.companyValue)}
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-sm font-medium text-gray-500">Cadastrado em</dt>
+            <dt className="text-sm font-medium text-gray-500">Data de cadastro</dt>
             <dd className="text-sm text-gray-900">
-              {new Date(client.createdAt).toLocaleDateString('pt-BR')}
+              {formatDateTime(client.createdAt)}
             </dd>
           </div>
         </dl>
 
         <div className="mt-6 flex gap-3">
           <button
-            onClick={() => navigate(`/clients/${client.id}/edit`)}
-            className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            onClick={() => navigate('/clients')}
+            className="rounded-[4px] bg-teddy-orange px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-teddy-orange-hover"
           >
             Editar
           </button>
           <button
-            onClick={() => navigate('/clients')}
-            className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+            onClick={() => navigate('/dashboard')}
+            className="rounded-[4px] border-[3px] border-teddy-orange px-4 py-2.5 font-bold text-teddy-orange transition-colors hover:bg-orange-50"
           >
             Voltar
           </button>

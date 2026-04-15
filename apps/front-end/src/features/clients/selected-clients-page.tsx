@@ -27,7 +27,7 @@ export function SelectedClientsPage() {
 
           <button
             onClick={clearAll}
-            className="mt-6 w-full rounded-md border-2 border-[#EC6724] px-4 py-2.5 font-medium text-[#EC6724] hover:bg-orange-50"
+            className="mt-6 w-full rounded-[4px] border-[3px] border-teddy-orange px-4 py-2.5 font-bold text-teddy-orange transition-colors hover:bg-orange-50"
           >
             Limpar clientes selecionados
           </button>

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, ChangeEvent } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { ClientResponse } from './types';
 
 interface ClientFormData {
@@ -17,6 +17,19 @@ interface ClientModalProps {
   error?: Error | null;
 }
 
+function formatBRL(value: number): string {
+  return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function handleCurrencyChange(
+  e: ChangeEvent<HTMLInputElement>,
+  onChange: (value: number) => void,
+) {
+  const raw = e.target.value.replace(/\D/g, '');
+  const numeric = Number(raw) / 100;
+  onChange(numeric);
+}
+
 export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, error }: ClientModalProps) {
   const isEditing = !!client;
 
@@ -24,6 +37,7 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<ClientFormData>();
 
@@ -70,23 +84,47 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
           </div>
 
           <div>
-            <input
-              type="number"
-              step="0.01"
-              placeholder="Digite o salário:"
-              className="w-full rounded-[4px] border border-gray-300 px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:border-teddy-orange focus:outline-none focus:ring-1 focus:ring-teddy-orange"
-              {...register('salary', { required: 'Salário é obrigatório', valueAsNumber: true, min: { value: 0, message: 'Deve ser positivo' } })}
+            <Controller
+              name="salary"
+              control={control}
+              rules={{ required: 'Salário é obrigatório', min: { value: 0.01, message: 'Deve ser maior que zero' } }}
+              render={({ field: { value, onChange, ...field } }) => (
+                <div className="flex overflow-hidden rounded-[4px] border border-gray-300 focus-within:border-teddy-orange focus-within:ring-1 focus-within:ring-teddy-orange">
+                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">R$</span>
+                  <input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="Digite o salário:"
+                    value={value ? formatBRL(value) : ''}
+                    onChange={(e) => handleCurrencyChange(e, onChange)}
+                    className="w-full px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:outline-none"
+                  />
+                </div>
+              )}
             />
             {errors.salary && <p className="mt-1 text-[12px] text-red-500">{errors.salary.message}</p>}
           </div>
 
           <div>
-            <input
-              type="number"
-              step="0.01"
-              placeholder="Digite o valor da empresa:"
-              className="w-full rounded-[4px] border border-gray-300 px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:border-teddy-orange focus:outline-none focus:ring-1 focus:ring-teddy-orange"
-              {...register('companyValue', { required: 'Valor é obrigatório', valueAsNumber: true, min: { value: 0, message: 'Deve ser positivo' } })}
+            <Controller
+              name="companyValue"
+              control={control}
+              rules={{ required: 'Valor é obrigatório', min: { value: 0.01, message: 'Deve ser maior que zero' } }}
+              render={({ field: { value, onChange, ...field } }) => (
+                <div className="flex overflow-hidden rounded-[4px] border border-gray-300 focus-within:border-teddy-orange focus-within:ring-1 focus-within:ring-teddy-orange">
+                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">R$</span>
+                  <input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="Digite o valor da empresa:"
+                    value={value ? formatBRL(value) : ''}
+                    onChange={(e) => handleCurrencyChange(e, onChange)}
+                    className="w-full px-3 py-2.5 text-[14px] text-gray-700 placeholder:text-gray-400 focus:outline-none"
+                  />
+                </div>
+              )}
             />
             {errors.companyValue && <p className="mt-1 text-[12px] text-red-500">{errors.companyValue.message}</p>}
           </div>

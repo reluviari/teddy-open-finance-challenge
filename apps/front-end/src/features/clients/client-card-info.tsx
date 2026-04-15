@@ -1,5 +1,4 @@
-const formatCurrency = (value: number) =>
-  value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+import { formatCurrency } from '@/shared/lib/format';
 
 interface ClientCardInfoProps {
   name: string;

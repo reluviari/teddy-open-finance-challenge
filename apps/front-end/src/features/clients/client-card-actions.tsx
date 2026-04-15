@@ -63,7 +63,7 @@ export function ClientCardActions({
       {variant === 'selected' && onRemove && (
         <button
           onClick={onRemove}
-          className="mx-auto text-teddy-orange transition-colors hover:text-red-700"
+          className="ml-auto text-teddy-orange transition-colors hover:text-red-700"
           aria-label={`Remover ${clientName}`}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">

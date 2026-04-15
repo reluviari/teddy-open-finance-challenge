@@ -6,9 +6,6 @@ export class DashboardResponseDto {
   totalClients: number;
 
   @ApiProperty()
-  totalSalary: number;
-
-  @ApiProperty()
   totalCompanyValue: number;
 
   @ApiProperty({ type: [ClientResponseDto] })

@@ -4,6 +4,7 @@ import { ClientResponse } from './types';
 interface SelectedClientsContextValue {
   selectedClients: ClientResponse[];
   addClient: (client: ClientResponse) => void;
+  updateClient: (client: ClientResponse) => void;
   removeClient: (clientId: string) => void;
   clearAll: () => void;
 }
@@ -37,6 +38,17 @@ export function SelectedClientsProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const updateClient = useCallback((client: ClientResponse) => {
+    setSelectedClients((prev) => {
+      const index = prev.findIndex((c) => c.id === client.id);
+      if (index === -1) return prev;
+      const next = [...prev];
+      next[index] = client;
+      saveSelected(next);
+      return next;
+    });
+  }, []);
+
   const removeClient = useCallback((clientId: string) => {
     setSelectedClients((prev) => {
       const next = prev.filter((c) => c.id !== clientId);
@@ -51,8 +63,8 @@ export function SelectedClientsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ selectedClients, addClient, removeClient, clearAll }),
-    [selectedClients, addClient, removeClient, clearAll],
+    () => ({ selectedClients, addClient, updateClient, removeClient, clearAll }),
+    [selectedClients, addClient, updateClient, removeClient, clearAll],
   );
 
   return (

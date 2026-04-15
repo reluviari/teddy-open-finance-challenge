@@ -21,7 +21,7 @@ graph LR
 
 > Versão detalhada com módulos internos: veja o README de cada app ([back-end](./apps/back-end/README.md), [front-end](./apps/front-end/README.md))
 >
-> Versão colorida: [docs/architecture.png](./docs/architecture.png)
+> Versão em imagemSim: [docs/architecture.png](./docs/architecture.png)
 
 ## Pré-requisitos
 
@@ -241,9 +241,29 @@ Se qualquer etapa falhar, o push é bloqueado. O hook é ativado automaticamente
 
 Os testes E2E do frontend usam Playwright com Chromium e dependem da stack completa rodando (PostgreSQL + backend + frontend). Subir essa infraestrutura no CI ou no pre-push adicionaria complexidade e tempo desproporcionais ao ganho. Esses testes são executados manualmente em ambiente local com `npm run test:e2e:front` antes de releases ou após mudanças significativas na UI.
 
-### CI vs CD
+### Deploy contínuo (CD)
 
-O escopo atual cobre CI (validação automatizada). CD (deploy automatizado) não foi implementado, pois não há infraestrutura de deploy configurada — a seção [Escalabilidade](#escalabilidade-visão-aws) descreve como a aplicação poderia ser implantada em cloud.
+Após o CI passar com sucesso, workflows de deploy são acionados automaticamente via `workflow_run`:
+
+| Workflow | Serviço | Trigger |
+|---|---|---|
+| **Deploy Backend** | Render.com | Após Backend CI passar |
+| **Deploy Frontend** | Vercel | Após Frontend CI passar |
+
+| Ambiente | URL |
+|---|---|
+| Frontend (Vercel) | [https://teddy-open-finance-challenge.vercel.app](https://teddy-open-finance-challenge.vercel.app) |
+| Backend API (Render) | *configurado via secret `RENDER_DEPLOY_HOOK`* |
+| Swagger | `<backend-url>/docs` |
+
+O backend no Render utiliza o `Dockerfile` existente e PostgreSQL managed. O free tier dorme após 15 minutos de inatividade — o primeiro acesso pode levar ~30 segundos para o serviço acordar.
+
+**Secrets necessários no GitHub** (Settings → Secrets → Actions):
+
+| Secret | Origem |
+|---|---|
+| `RENDER_DEPLOY_HOOK` | Render → Web Service → Settings → Deploy Hook |
+| `VERCEL_TOKEN` | Vercel → Settings → Tokens |
 
 ## Observabilidade
 

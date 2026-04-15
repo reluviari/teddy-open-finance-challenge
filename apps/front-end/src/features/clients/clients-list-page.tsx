@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useClients } from './hooks/use-clients';
 import { useCreateClient, useUpdateClient, useDeleteClient } from './hooks/use-client-mutations';
 import { useSelectedClients } from './selected-clients-context';
@@ -9,6 +9,26 @@ import { ClientsPagination } from './clients-pagination';
 import { ClientModal } from './client-modal';
 import { DeleteModal } from './delete-modal';
 import { ClientResponse } from './types';
+
+function SuccessToast({ message, onDone }: { message: string; onDone: () => void }) {
+  const [visible, setVisible] = useState(false);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+    const fadeTimer = setTimeout(() => setFading(true), 3500);
+    const doneTimer = setTimeout(onDone, 4000);
+    return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer); };
+  }, [onDone]);
+
+  return (
+    <div
+      className={`mb-4 rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-[14px] text-green-700 transition-opacity duration-500 ${visible && !fading ? 'opacity-100' : 'opacity-0'}`}
+    >
+      {message}
+    </div>
+  );
+}
 
 export function ClientsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,10 +49,15 @@ export function ClientsListPage() {
   const totalClients = data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalClients / perPage));
 
+  const showSuccess = useCallback((msg: string) => {
+    setSuccessMessage(msg);
+  }, []);
+
   const handleCreate = (formData: { name: string; salary: number; companyValue: number }) => {
     createMutation.mutate(formData, {
       onSuccess: () => {
         setShowCreateModal(false);
+        showSuccess(`Cliente "${formData.name}" criado com sucesso.`);
         refetch();
       },
     });
@@ -46,6 +71,7 @@ export function ClientsListPage() {
         onSuccess: () => {
           updateClient({ ...editingClient, ...formData });
           setEditingClient(null);
+          showSuccess(`Cliente "${formData.name}" atualizado com sucesso.`);
           refetch();
         },
       },
@@ -60,8 +86,7 @@ export function ClientsListPage() {
       onSuccess: () => {
         removeClient(clientId);
         setDeletingClient(null);
-        setSuccessMessage(`Cliente "${clientName}" excluído com sucesso.`);
-        setTimeout(() => setSuccessMessage(null), 4000);
+        showSuccess(`Cliente "${clientName}" excluído com sucesso.`);
         refetch();
       },
     });
@@ -94,9 +119,11 @@ export function ClientsListPage() {
   return (
     <>
       {successMessage && (
-        <div className="mb-4 rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-[14px] text-green-700">
-          {successMessage}
-        </div>
+        <SuccessToast
+          key={successMessage}
+          message={successMessage}
+          onDone={() => setSuccessMessage(null)}
+        />
       )}
 
       <ClientsToolbar

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ClientResponseDto {
   @ApiProperty()
@@ -7,8 +7,8 @@ export class ClientResponseDto {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
-  email: string;
+  @ApiPropertyOptional()
+  email?: string;
 
   @ApiProperty()
   salary: number;

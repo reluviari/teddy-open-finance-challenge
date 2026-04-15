@@ -1,5 +1,5 @@
 import { Controller, Get, Header } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiProduces } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiProduces, ApiResponse } from '@nestjs/swagger';
 import { MetricsService } from './metrics.service';
 
 /** Exposes application metrics in Prometheus exposition format. */
@@ -12,6 +12,7 @@ export class MetricsController {
   @Get('metrics')
   @ApiOperation({ summary: 'Application metrics (Prometheus format)' })
   @ApiProduces('text/plain')
+  @ApiResponse({ status: 200, description: 'Prometheus exposition format metrics' })
   @Header('Content-Type', 'text/plain; version=0.0.4; charset=utf-8')
   getMetrics(): string {
     return this.metricsService.getMetrics();

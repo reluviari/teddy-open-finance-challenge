@@ -27,6 +27,7 @@ import {
 @ApiTags('clients')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@ApiResponse({ status: 401, description: 'Unauthorized — missing or invalid JWT' })
 @Controller('clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
@@ -35,6 +36,7 @@ export class ClientsController {
   @Post()
   @ApiOperation({ summary: 'Create a client' })
   @ApiResponse({ status: 201, description: 'Client created', type: ClientResponseDto })
+  @ApiResponse({ status: 400, description: 'Validation error' })
   create(@Body() createClientDto: CreateClientDto): Promise<ClientResponseDto> {
     return this.clientsService.create(createClientDto);
   }
@@ -73,6 +75,7 @@ export class ClientsController {
   @Put(':id')
   @ApiOperation({ summary: 'Update a client' })
   @ApiResponse({ status: 200, description: 'Client updated', type: ClientResponseDto })
+  @ApiResponse({ status: 400, description: 'Validation error' })
   @ApiResponse({ status: 404, description: 'Client not found' })
   update(
     @Param('id', ParseUUIDPipe) id: string,

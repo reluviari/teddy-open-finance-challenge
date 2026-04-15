@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ClientResponseDto } from './client-response.dto';
 
+export class ChartDataItemDto {
+  @ApiProperty({ example: '2025-04' })
+  month: string;
+
+  @ApiProperty({ example: 5 })
+  count: number;
+}
+
 export class DashboardResponseDto {
   @ApiProperty()
   totalClients: number;
@@ -11,6 +19,6 @@ export class DashboardResponseDto {
   @ApiProperty({ type: [ClientResponseDto] })
   latestClients: ClientResponseDto[];
 
-  @ApiProperty({ type: [Object], description: 'Monthly client count for chart' })
-  chartData: { month: string; count: number }[];
+  @ApiProperty({ type: [ChartDataItemDto], description: 'Monthly client count for chart' })
+  chartData: ChartDataItemDto[];
 }

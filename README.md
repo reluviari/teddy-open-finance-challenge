@@ -23,7 +23,87 @@ graph LR
 >
 > Versão colorida: [docs/architecture.png](./docs/architecture.png)
 
+## Pré-requisitos
 
+- Docker e Docker Compose
+
+## Como rodar
+
+### Stack completa (recomendado)
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+Aguarde os 3 containers subirem. O PostgreSQL precisa estar healthy antes do backend iniciar — o Docker Compose cuida disso automaticamente.
+
+| Serviço | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3000 |
+| Swagger | http://localhost:3000/docs |
+| Health check | http://localhost:3000/healthz |
+| Métricas | http://localhost:3000/metrics |
+
+### Apps isolados
+
+Cada app pode ser executado independentemente com seu próprio `docker-compose.yml`:
+
+```bash
+cd apps/back-end && docker compose up --build    # backend + postgres
+cd apps/front-end && docker compose up --build   # frontend (requer backend rodando)
+```
+
+### Credenciais padrão
+
+| Email | Senha |
+|---|---|
+| `admin@teddy.com` | `password123` |
+
+Usuário criado automaticamente via seed quando o banco está vazio. Além disso, 67 clientes de exemplo são inseridos automaticamente na primeira execução, com nomes, salários, valores de empresa e datas de cadastro variados.
+
+### Modo de desenvolvimento
+
+Para debugging, hot reload e desenvolvimento ativo:
+
+```bash
+npm install
+cp .env.example .env
+docker compose up -d postgres       # apenas o banco
+npm run dev:back                     # backend com hot reload (terminal 1)
+npm run dev:front                    # frontend com hot reload (terminal 2)
+```
+
+## Scripts disponíveis
+
+| Comando | Descrição |
+|---|---|
+| `npm run dev:front` | Dev server do frontend (hot reload) |
+| `npm run dev:back` | Dev server do backend (hot reload) |
+| `npm run build:front` | Build do frontend para produção |
+| `npm run build:back` | Build do backend para produção |
+| `npm run test:front` | Testes do frontend |
+| `npm run test:back` | Testes do backend |
+| `npm run test` | Todos os testes |
+| `npm run lint` | Lint de todos os projetos |
+| `npm run format` | Formatar código |
+| `npm run format:check` | Verificar formatação |
+
+## Endpoints da API
+
+| Método | Rota | Auth | Descrição |
+|---|---|---|---|
+| POST | `/auth/login` | Não | Autenticação (retorna JWT) |
+| GET | `/clients` | Sim | Listar clientes |
+| POST | `/clients` | Sim | Criar cliente |
+| GET | `/clients/dashboard` | Sim | Stats do dashboard |
+| GET | `/clients/:id` | Sim | Detalhe (incrementa contador) |
+| PUT | `/clients/:id` | Sim | Atualizar cliente |
+| DELETE | `/clients/:id` | Sim | Soft delete |
+| GET | `/healthz` | Não | Health check |
+| GET | `/metrics` | Não | Métricas Prometheus |
+| GET | `/docs` | Não | Swagger |
 
 ## Escopo funcional
 
@@ -37,45 +117,39 @@ graph LR
 
 ### Frontend (`apps/front-end`)
 
-
-| Lib                      | Uso                                   |
-| ------------------------ | ------------------------------------- |
-| React 19                 | UI com hooks e componentes funcionais |
-| Vite                     | Build e dev server                    |
-| TypeScript               | Tipagem estrita                       |
-| React Hook Form          | Formulários com validação             |
-| React Router             | Roteamento e URL state                |
-| Recharts                 | Gráfico de barras no dashboard        |
-| Tailwind CSS             | Estilização                           |
-| Vitest + Testing Library | Testes de componente                  |
-
+| Lib | Uso |
+|---|---|
+| React 19 | UI com hooks e componentes funcionais |
+| Vite | Build e dev server |
+| TypeScript | Tipagem estrita |
+| React Hook Form | Formulários com validação |
+| React Router | Roteamento e URL state |
+| Recharts | Gráfico de barras no dashboard |
+| Tailwind CSS | Estilização |
+| Vitest + Testing Library | Testes de componente |
 
 ### Backend (`apps/back-end`)
 
-
-| Lib                         | Uso                       |
-| --------------------------- | ------------------------- |
-| NestJS 11                   | Framework modular         |
-| TypeORM                     | ORM com PostgreSQL        |
-| PostgreSQL 16               | Banco de dados            |
-| Passport + JWT              | Autenticação              |
-| class-validator             | Validação de DTOs         |
-| class-transformer           | Transformação de payloads |
-| bcrypt                      | Hash de senhas            |
-| Swagger (`@nestjs/swagger`) | Documentação de API       |
-| Jest                        | Testes unitários          |
-
+| Lib | Uso |
+|---|---|
+| NestJS 11 | Framework modular |
+| TypeORM | ORM com PostgreSQL |
+| PostgreSQL 16 | Banco de dados |
+| Passport + JWT | Autenticação |
+| class-validator | Validação de DTOs |
+| class-transformer | Transformação de payloads |
+| bcrypt | Hash de senhas |
+| Swagger (`@nestjs/swagger`) | Documentação de API |
+| Jest | Testes unitários |
 
 ### Monorepo e qualidade
 
-
-| Lib          | Uso                                     |
-| ------------ | --------------------------------------- |
-| Nx 20        | Monorepo, targets independentes por app |
-| ESLint       | Linting                                 |
-| Prettier     | Formatação                              |
-| TypeScript 5 | Tipagem                                 |
-
+| Lib | Uso |
+|---|---|
+| Nx 20 | Monorepo, targets independentes por app |
+| ESLint | Linting |
+| Prettier | Formatação |
+| TypeScript 5 | Tipagem |
 
 ## Estrutura de pastas
 
@@ -115,115 +189,6 @@ teddy-open-finance-challenge/
     └── teddy-challenge-agents-setup.md  Definição dos agentes
 ```
 
-## Pré-requisitos
-
-- Docker e Docker Compose
-
-## Como rodar
-
-### Stack completa (recomendado)
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-Aguarde os 3 containers subirem. O PostgreSQL precisa estar healthy antes do backend iniciar — o Docker Compose cuida disso automaticamente.
-
-
-| Serviço      | URL                                                            |
-| ------------ | -------------------------------------------------------------- |
-| Frontend     | [http://localhost:5173](http://localhost:5173)                 |
-| Backend API  | [http://localhost:3000](http://localhost:3000)                 |
-| Swagger      | [http://localhost:3000/docs](http://localhost:3000/docs)       |
-| Health check | [http://localhost:3000/healthz](http://localhost:3000/healthz) |
-| Métricas     | [http://localhost:3000/metrics](http://localhost:3000/metrics) |
-
-
-### Apps isolados
-
-Cada app pode ser executado independentemente com seu próprio `docker-compose.yml`:
-
-```bash
-cd apps/back-end && docker compose up --build    # backend + postgres
-cd apps/front-end && docker compose up --build   # frontend (requer backend rodando)
-```
-
-### Credenciais padrão
-
-
-| Email             | Senha         |
-| ----------------- | ------------- |
-| `admin@teddy.com` | `password123` |
-
-
-Usuário criado automaticamente via seed quando o banco está vazio. Além disso, 67 clientes de exemplo são inseridos automaticamente na primeira execução, com nomes, salários, valores de empresa e datas de cadastro variados.
-
-## Modo de desenvolvimento
-
-Para debugging, hot reload e desenvolvimento ativo:
-
-```bash
-npm install
-cp .env.example .env
-docker compose up -d postgres       # apenas o banco
-npm run dev:back                     # backend com hot reload (terminal 1)
-npm run dev:front                    # frontend com hot reload (terminal 2)
-```
-
-## Scripts disponíveis
-
-
-| Comando                | Descrição                           |
-| ---------------------- | ----------------------------------- |
-| `npm run dev:front`    | Dev server do frontend (hot reload) |
-| `npm run dev:back`     | Dev server do backend (hot reload)  |
-| `npm run build:front`  | Build do frontend para produção     |
-| `npm run build:back`   | Build do backend para produção      |
-| `npm run test:front`   | Testes do frontend                  |
-| `npm run test:back`    | Testes do backend                   |
-| `npm run test`         | Todos os testes                     |
-| `npm run lint`         | Lint de todos os projetos           |
-| `npm run format`       | Formatar código                     |
-| `npm run format:check` | Verificar formatação                |
-
-
-## Endpoints da API
-
-
-| Método | Rota                 | Auth | Descrição                     |
-| ------ | -------------------- | ---- | ----------------------------- |
-| POST   | `/auth/login`        | Não  | Autenticação (retorna JWT)    |
-| GET    | `/clients`           | Sim  | Listar clientes               |
-| POST   | `/clients`           | Sim  | Criar cliente                 |
-| GET    | `/clients/dashboard` | Sim  | Stats do dashboard            |
-| GET    | `/clients/:id`       | Sim  | Detalhe (incrementa contador) |
-| PUT    | `/clients/:id`       | Sim  | Atualizar cliente             |
-| DELETE | `/clients/:id`       | Sim  | Soft delete                   |
-| GET    | `/healthz`           | Não  | Health check                  |
-| GET    | `/metrics`           | Não  | Métricas Prometheus           |
-| GET    | `/docs`              | Não  | Swagger                       |
-
-
-## Credenciais padrão
-
-
-| Email             | Senha         |
-| ----------------- | ------------- |
-| `admin@teddy.com` | `password123` |
-
-
-Usuário criado automaticamente via seed quando o banco está vazio.
-
-## Observabilidade
-
-### Por que health, metrics, logs e testes são importantes
-
-- **Health check** (`GET /healthz`) — permite que load balancers e orquestradores saibam se o serviço está vivo. Um health check rápido e determinístico evita direcionar tráfego para instâncias com falha.
-- **Métricas** (`GET /metrics`) — em formato Prometheus, habilitam dashboards (Grafana) e alertas. Monitorar contagem de requests, erros, uptime e uso de memória ajuda a detectar degradação de performance antes que vire incidente.
-- **Logs estruturados** (JSON) — tornam possível a agregação de logs (ELK, CloudWatch, Datadog). Logs legíveis por máquina com timestamp, level, context e message permitem busca, filtro e correlação entre serviços — essencial para debugging em produção.
-- **Testes** (unitários, componente, integração) — dão confiança de que mudanças não quebram comportamento existente. Servem como documentação viva das regras de negócio e permitem refatoração segura. No CI/CD, testes são a barreira que impede código quebrado de chegar a produção.
-
 ## Testes
 
 O projeto possui 4 camadas de testes:
@@ -249,6 +214,25 @@ Para detalhes de cobertura, cenários testados e passo a passo de cada tipo, vej
 - [Backend — Testes](./apps/back-end/README.md#testes)
 - [Frontend — Testes](./apps/front-end/README.md#testes)
 
+## Observabilidade
+
+### Por que health, metrics, logs e testes são importantes
+
+- **Health check** (`GET /healthz`) — permite que load balancers e orquestradores saibam se o serviço está vivo. Um health check rápido e determinístico evita direcionar tráfego para instâncias com falha.
+- **Métricas** (`GET /metrics`) — em formato Prometheus, habilitam dashboards (Grafana) e alertas. Monitorar contagem de requests, erros, uptime e uso de memória ajuda a detectar degradação de performance antes que vire incidente.
+- **Logs estruturados** (JSON) — tornam possível a agregação de logs (ELK, CloudWatch, Datadog). Logs legíveis por máquina com timestamp, level, context e message permitem busca, filtro e correlação entre serviços — essencial para debugging em produção.
+- **Testes** (unitários, componente, integração) — dão confiança de que mudanças não quebram comportamento existente. Servem como documentação viva das regras de negócio e permitem refatoração segura. No CI/CD, testes são a barreira que impede código quebrado de chegar a produção.
+
+## Escalabilidade (visão AWS)
+
+Para produção em cloud, a arquitetura poderia ser implantada com:
+
+- **Frontend**: S3 + CloudFront (CDN)
+- **Backend**: ECS Fargate ou EKS com auto-scaling
+- **Banco**: RDS PostgreSQL com Multi-AZ
+- **Observabilidade**: CloudWatch Logs, X-Ray para tracing, métricas custom via Prometheus/Grafana
+- **Auth**: manter JWT stateless, considerar integração com Cognito para cenários mais complexos
+
 ## Desenvolvimento assistido por AI
 
 Este projeto foi construído com o apoio do [Cursor](https://cursor.com), um editor de código com inteligência artificial integrada. A AI não foi usada como gerador automático de código — ela atuou como um colaborador disciplinado dentro de um fluxo estruturado.
@@ -262,15 +246,4 @@ O desenvolvimento seguiu um ciclo claro para cada fase do projeto:
 3. **Regras persistentes** — o projeto mantém um conjunto de regras em `.cursor/rules/` que guiam o comportamento da AI: arquitetura, convenções de código, estrutura do monorepo, qualidade e operação. Essas regras garantem consistência mesmo entre sessões diferentes.
 4. **Revisão antes de fechar** — ao final de cada fase, uma revisão compara a implementação com os requisitos do desafio para garantir que nada foi esquecido ou sobre-engenheirado.
 
-Para mais detalhes sobre o fluxo, os agentes e as regras, veja `docs/ai-workflow.md`  e `docs/teddy-challenge-agents-setup.md`
-
-## Escalabilidade (visão AWS)
-
-Para produção em cloud, a arquitetura poderia ser implantada com:
-
-- **Frontend**: S3 + CloudFront (CDN)
-- **Backend**: ECS Fargate ou EKS com auto-scaling
-- **Banco**: RDS PostgreSQL com Multi-AZ
-- **Observabilidade**: CloudWatch Logs, X-Ray para tracing, métricas custom via Prometheus/Grafana
-- **Auth**: manter JWT stateless, considerar integração com Cognito para cenários mais complexos
-
+Para mais detalhes sobre o fluxo, os agentes e as regras, veja [`docs/ai-workflow.md`](./docs/ai-workflow.md).

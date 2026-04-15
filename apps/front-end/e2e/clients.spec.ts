@@ -48,5 +48,4 @@ test.describe('Clients', () => {
     await page.getByRole('button', { name: 'Excluir cliente' }).click();
     await expect(page.getByText('excluído com sucesso')).toBeVisible();
   });
-
 });

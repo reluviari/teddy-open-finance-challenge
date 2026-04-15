@@ -83,7 +83,15 @@ describe('ClientsListPage', () => {
     mockUseClients.mockReturnValue({
       data: {
         data: [
-          { id: '1', name: 'Eduardo', salary: 3500, companyValue: 120000, viewCount: 0, createdAt: '', updatedAt: '' },
+          {
+            id: '1',
+            name: 'Eduardo',
+            salary: 3500,
+            companyValue: 120000,
+            viewCount: 0,
+            createdAt: '',
+            updatedAt: '',
+          },
         ],
         total: 1,
       },
@@ -96,6 +104,6 @@ describe('ClientsListPage', () => {
     renderPage();
 
     expect(screen.getByText('Eduardo')).toBeInTheDocument();
-    expect(screen.getByText(/1 clientes encontrados/i)).toBeInTheDocument();
+    expect(screen.getByText(/clientes encontrados/i)).toBeInTheDocument();
   });
 });

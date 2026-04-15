@@ -16,5 +16,4 @@ export class CreateClientDto {
   @IsNumber()
   @Min(0)
   companyValue: number;
-
 }

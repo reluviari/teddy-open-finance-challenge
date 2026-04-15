@@ -15,7 +15,9 @@ export function ClientsPerPageSelect({ value, onChange }: ClientsPerPageSelectPr
         className="rounded border border-gray-300 bg-white px-2 py-1 text-[14px] text-gray-700 focus:border-teddy-orange focus:outline-none"
       >
         {PER_PAGE_OPTIONS.map((opt) => (
-          <option key={opt} value={opt}>{opt}</option>
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
         ))}
       </select>
     </div>

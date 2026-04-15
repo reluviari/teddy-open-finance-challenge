@@ -4,7 +4,11 @@ interface ClientsPaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export function ClientsPagination({ currentPage, totalPages, onPageChange }: ClientsPaginationProps) {
+export function ClientsPagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: ClientsPaginationProps) {
   if (totalPages <= 1) return null;
 
   const items = getPaginationItems(currentPage, totalPages);
@@ -13,7 +17,9 @@ export function ClientsPagination({ currentPage, totalPages, onPageChange }: Cli
     <nav className="mt-5 flex items-center justify-center gap-1" aria-label="Paginação">
       {items.map((item, i) =>
         item === '...' ? (
-          <span key={`dots-${i}`} className="px-1.5 text-[14px] text-gray-400">...</span>
+          <span key={`dots-${i}`} className="px-1.5 text-[14px] text-gray-400">
+            ...
+          </span>
         ) : (
           <button
             key={item}

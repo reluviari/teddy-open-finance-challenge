@@ -1,6 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, LoginPage, ProtectedRoute } from '@/features/auth';
-import { ClientsListPage, ClientDetailPage, SelectedClientsPage, SelectedClientsProvider } from '@/features/clients';
+import {
+  ClientsListPage,
+  ClientDetailPage,
+  SelectedClientsPage,
+  SelectedClientsProvider,
+} from '@/features/clients';
 import { DashboardPage } from '@/features/dashboard';
 import { Layout } from './layout';
 

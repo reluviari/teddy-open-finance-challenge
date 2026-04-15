@@ -79,9 +79,7 @@ describe('App (e2e)', () => {
 
   describe('Clients CRUD (authenticated)', () => {
     it('GET /clients without token should return 401', () => {
-      return request(app.getHttpServer())
-        .get('/clients')
-        .expect(401);
+      return request(app.getHttpServer()).get('/clients').expect(401);
     });
 
     it('GET /clients should return paginated list', () => {
@@ -188,9 +186,7 @@ describe('App (e2e)', () => {
     });
 
     it('GET /clients/dashboard without token should return 401', () => {
-      return request(app.getHttpServer())
-        .get('/clients/dashboard')
-        .expect(401);
+      return request(app.getHttpServer()).get('/clients/dashboard').expect(401);
     });
   });
 });

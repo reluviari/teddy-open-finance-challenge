@@ -3,7 +3,20 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useDashboard } from './hooks/use-dashboard';
 import { formatCurrency, formatDateTime } from '@/shared/lib/format';
 
-const MONTH_LABELS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+const MONTH_LABELS = [
+  'Jan',
+  'Fev',
+  'Mar',
+  'Abr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Ago',
+  'Set',
+  'Out',
+  'Nov',
+  'Dez',
+];
 
 function formatMonth(yyyyMm: string): string {
   const [year, month] = yyyyMm.split('-');
@@ -58,7 +71,12 @@ export function DashboardPage() {
         <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Clientes por mês</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={data.chartData.map((d) => ({ 'Total de Clientes': d.count, label: formatMonth(d.month) }))}>
+            <BarChart
+              data={data.chartData.map((d) => ({
+                'Total de Clientes': d.count,
+                label: formatMonth(d.month),
+              }))}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="label" />
               <YAxis allowDecimals={false} />
@@ -89,17 +107,28 @@ export function DashboardPage() {
             <table className="min-w-full table-fixed divide-y divide-gray-100">
               <thead className="bg-[#FDE8D8]">
                 <tr>
-                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
-                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">Salário</th>
-                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">Valor da empresa</th>
-                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">Data de cadastro</th>
+                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Nome
+                  </th>
+                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Salário
+                  </th>
+                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Valor da empresa
+                  </th>
+                  <th className="w-1/4 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Data de cadastro
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {data.latestClients.map((client, index) => (
                   <tr key={client.id} className={index % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-4 py-3 text-sm">
-                      <Link to={`/clients/${client.id}`} className="text-teddy-orange hover:underline">
+                      <Link
+                        to={`/clients/${client.id}`}
+                        className="text-teddy-orange hover:underline"
+                      >
                         {client.name}
                       </Link>
                     </td>

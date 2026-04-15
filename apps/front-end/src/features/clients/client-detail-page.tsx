@@ -51,21 +51,15 @@ export function ClientDetailPage() {
         <dl className="space-y-3">
           <div className="flex justify-between border-b border-gray-100 pb-2">
             <dt className="text-sm font-medium text-gray-500">Salário</dt>
-            <dd className="text-sm text-gray-900">
-              {formatCurrency(client.salary)}
-            </dd>
+            <dd className="text-sm text-gray-900">{formatCurrency(client.salary)}</dd>
           </div>
           <div className="flex justify-between border-b border-gray-100 pb-2">
             <dt className="text-sm font-medium text-gray-500">Valor da empresa</dt>
-            <dd className="text-sm text-gray-900">
-              {formatCurrency(client.companyValue)}
-            </dd>
+            <dd className="text-sm text-gray-900">{formatCurrency(client.companyValue)}</dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-sm font-medium text-gray-500">Data de cadastro</dt>
-            <dd className="text-sm text-gray-900">
-              {formatDateTime(client.createdAt)}
-            </dd>
+            <dd className="text-sm text-gray-900">{formatDateTime(client.createdAt)}</dd>
           </div>
         </dl>
 

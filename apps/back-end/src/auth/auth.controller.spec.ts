@@ -22,7 +22,10 @@ describe('AuthController', () => {
 
   describe('login', () => {
     const inputLogin: LoginDto = { email: 'user@teddy.com', password: 'password123' };
-    const expectedResponse: LoginResponseDto = { accessToken: 'mock-jwt-token' };
+    const expectedResponse: LoginResponseDto = {
+      accessToken: 'mock-jwt-token',
+      name: 'Administrador',
+    };
 
     it('should delegate to AuthService and return the access token', async () => {
       mockAuthService.login.mockResolvedValue(expectedResponse);

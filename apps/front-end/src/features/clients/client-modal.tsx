@@ -21,16 +21,20 @@ function formatBRL(value: number): string {
   return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-function handleCurrencyChange(
-  e: ChangeEvent<HTMLInputElement>,
-  onChange: (value: number) => void,
-) {
+function handleCurrencyChange(e: ChangeEvent<HTMLInputElement>, onChange: (value: number) => void) {
   const raw = e.target.value.replace(/\D/g, '');
   const numeric = Number(raw) / 100;
   onChange(numeric);
 }
 
-export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, error }: ClientModalProps) {
+export function ClientModal({
+  isOpen,
+  client,
+  onClose,
+  onSubmit,
+  isPending,
+  error,
+}: ClientModalProps) {
   const isEditing = !!client;
 
   const {
@@ -52,7 +56,10 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40"
+      onClick={onClose}
+    >
       <div
         className="w-full max-w-[420px] rounded-[4px] bg-white p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
@@ -66,7 +73,14 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
             className="text-gray-400 transition-colors hover:text-gray-600"
             aria-label="Fechar"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </button>
@@ -87,10 +101,15 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
             <Controller
               name="salary"
               control={control}
-              rules={{ required: 'Salário é obrigatório', min: { value: 0.01, message: 'Deve ser maior que zero' } }}
+              rules={{
+                required: 'Salário é obrigatório',
+                min: { value: 0.01, message: 'Deve ser maior que zero' },
+              }}
               render={({ field: { value, onChange, ...field } }) => (
                 <div className="flex overflow-hidden rounded-[4px] border border-gray-300 focus-within:border-teddy-orange focus-within:ring-1 focus-within:ring-teddy-orange">
-                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">R$</span>
+                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">
+                    R$
+                  </span>
                   <input
                     {...field}
                     type="text"
@@ -103,17 +122,24 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
                 </div>
               )}
             />
-            {errors.salary && <p className="mt-1 text-[12px] text-red-500">{errors.salary.message}</p>}
+            {errors.salary && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.salary.message}</p>
+            )}
           </div>
 
           <div>
             <Controller
               name="companyValue"
               control={control}
-              rules={{ required: 'Valor é obrigatório', min: { value: 0.01, message: 'Deve ser maior que zero' } }}
+              rules={{
+                required: 'Valor é obrigatório',
+                min: { value: 0.01, message: 'Deve ser maior que zero' },
+              }}
               render={({ field: { value, onChange, ...field } }) => (
                 <div className="flex overflow-hidden rounded-[4px] border border-gray-300 focus-within:border-teddy-orange focus-within:ring-1 focus-within:ring-teddy-orange">
-                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">R$</span>
+                  <span className="flex items-center bg-gray-100 px-3 text-[14px] text-gray-500">
+                    R$
+                  </span>
                   <input
                     {...field}
                     type="text"
@@ -126,7 +152,9 @@ export function ClientModal({ isOpen, client, onClose, onSubmit, isPending, erro
                 </div>
               )}
             />
-            {errors.companyValue && <p className="mt-1 text-[12px] text-red-500">{errors.companyValue.message}</p>}
+            {errors.companyValue && (
+              <p className="mt-1 text-[12px] text-red-500">{errors.companyValue.message}</p>
+            )}
           </div>
 
           {error && <p className="text-[12px] text-red-500">{error.message}</p>}

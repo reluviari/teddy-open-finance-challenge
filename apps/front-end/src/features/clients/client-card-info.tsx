@@ -11,7 +11,10 @@ interface ClientCardInfoProps {
 export function ClientCardInfo({ id, name, salary, companyValue }: ClientCardInfoProps) {
   return (
     <div className="w-full text-center">
-      <Link to={`/clients/${id}`} className="text-[16px] font-bold text-gray-800 no-underline transition-colors hover:text-teddy-orange">
+      <Link
+        to={`/clients/${id}`}
+        className="text-[16px] font-bold text-gray-800 no-underline transition-colors hover:text-teddy-orange"
+      >
         {name}
       </Link>
       <p className="mt-1.5 text-[13px] text-gray-500">Salário: {formatCurrency(salary)}</p>

@@ -19,4 +19,4 @@ export interface CreateClientRequest {
   companyValue: number;
 }
 
-export interface UpdateClientRequest extends Partial<CreateClientRequest> {}
+export type UpdateClientRequest = Partial<CreateClientRequest>;

@@ -24,22 +24,31 @@ export function AppHeader() {
             aria-label="Menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M3 12h18M3 6h18M3 18h18" />
             </svg>
           </button>
 
-          <img
-            src="/teddy-logo.svg"
-            alt="Teddy Open Finance"
-            className="h-12 w-auto"
-          />
+          <img src="/teddy-logo.svg" alt="Teddy Open Finance" className="h-12 w-auto" />
         </div>
 
         <nav className="hidden items-center gap-8 md:flex">
-          <NavLink to="/clients" end className={navLinkClass}>Clientes</NavLink>
-          <NavLink to="/clients/selected" className={navLinkClass}>Clientes selecionados</NavLink>
-          <NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink>
+          <NavLink to="/clients" end className={navLinkClass}>
+            Clientes
+          </NavLink>
+          <NavLink to="/clients/selected" className={navLinkClass}>
+            Clientes selecionados
+          </NavLink>
+          <NavLink to="/dashboard" className={navLinkClass}>
+            Dashboard
+          </NavLink>
           <button
             onClick={handleLogout}
             className="border-b-2 border-transparent pb-1 text-[14px] font-medium text-gray-500 transition-colors hover:text-gray-800"
@@ -56,11 +65,24 @@ export function AppHeader() {
       {menuOpen && (
         <nav className="border-t border-gray-200 px-6 py-3 md:hidden">
           <div className="flex flex-col gap-3">
-            <NavLink to="/clients" end className={navLinkClass} onClick={() => setMenuOpen(false)}>Clientes</NavLink>
-            <NavLink to="/clients/selected" className={navLinkClass} onClick={() => setMenuOpen(false)}>Clientes selecionados</NavLink>
-            <NavLink to="/dashboard" className={navLinkClass} onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
+            <NavLink to="/clients" end className={navLinkClass} onClick={() => setMenuOpen(false)}>
+              Clientes
+            </NavLink>
+            <NavLink
+              to="/clients/selected"
+              className={navLinkClass}
+              onClick={() => setMenuOpen(false)}
+            >
+              Clientes selecionados
+            </NavLink>
+            <NavLink to="/dashboard" className={navLinkClass} onClick={() => setMenuOpen(false)}>
+              Dashboard
+            </NavLink>
             <button
-              onClick={() => { setMenuOpen(false); handleLogout(); }}
+              onClick={() => {
+                setMenuOpen(false);
+                handleLogout();
+              }}
               className="border-b-2 border-transparent pb-1 text-left text-[14px] font-medium text-gray-500 transition-colors hover:text-gray-800"
             >
               Sair

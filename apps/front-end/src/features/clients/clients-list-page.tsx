@@ -18,7 +18,10 @@ function SuccessToast({ message, onDone }: { message: string; onDone: () => void
     requestAnimationFrame(() => setVisible(true));
     const fadeTimer = setTimeout(() => setFading(true), 3500);
     const doneTimer = setTimeout(onDone, 4000);
-    return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer); };
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(doneTimer);
+    };
   }, [onDone]);
 
   return (
@@ -34,7 +37,10 @@ export function ClientsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
 
-  const { data, isLoading, isError, error, refetch } = useClients({ page: currentPage, limit: perPage });
+  const { data, isLoading, isError, error, refetch } = useClients({
+    page: currentPage,
+    limit: perPage,
+  });
   const createMutation = useCreateClient();
   const updateMutation = useUpdateClient();
   const deleteMutation = useDeleteClient();

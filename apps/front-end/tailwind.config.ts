@@ -5,10 +5,7 @@ const frontEndDir = path.resolve(__dirname);
 
 const config: Config = {
   darkMode: 'class',
-  content: [
-    path.join(frontEndDir, 'index.html'),
-    path.join(frontEndDir, 'src/**/*.{ts,tsx}'),
-  ],
+  content: [path.join(frontEndDir, 'index.html'), path.join(frontEndDir, 'src/**/*.{ts,tsx}')],
   theme: {
     extend: {
       colors: {

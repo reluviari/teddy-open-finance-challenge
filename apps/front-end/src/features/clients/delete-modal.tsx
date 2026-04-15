@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -15,20 +15,11 @@ export function DeleteModal({
   onConfirm,
   isPending,
 }: DeleteModalProps) {
-  const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      setVisible(true);
-      setClosing(false);
-    }
-  }, [isOpen]);
 
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
-      setVisible(false);
       setClosing(false);
       onClose();
     }, 500);
@@ -37,13 +28,12 @@ export function DeleteModal({
   const handleConfirm = () => {
     setClosing(true);
     setTimeout(() => {
-      setVisible(false);
       setClosing(false);
       onConfirm();
     }, 500);
   };
 
-  if (!visible) return null;
+  if (!isOpen && !closing) return null;
 
   return (
     <div
@@ -90,6 +80,3 @@ export function DeleteModal({
     </div>
   );
 }
-
-
-

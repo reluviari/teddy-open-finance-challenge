@@ -28,17 +28,19 @@ This repository uses AI as a planning and implementation accelerator, not as a b
 
 ## Agents and subagents
 
-The AI-assisted development was organized through specialized agents, each with a clear responsibility boundary. The full agent definitions — including their instructions, when to use each one, and the recommended orchestration flow — are documented in [`docs/teddy-challenge-agents-setup.md`](./teddy-challenge-agents-setup.md).
+The AI-assisted development was organized through specialized agents, each with a clear responsibility boundary. The full agent definitions — including their instructions, when to use each one, and the recommended orchestration flow — are documented in `[docs/teddy-challenge-agents-setup.md](./teddy-challenge-agents-setup.md)`.
 
 In summary:
 
-| Agent | Role |
-|---|---|
+
+| Agent                    | Role                                                               |
+| ------------------------ | ------------------------------------------------------------------ |
 | `challenge-orchestrator` | Plans each phase, reviews scope, delegates to the correct subagent |
-| `frontend-implementer` | Implements React features following the approved plan |
-| `backend-implementer` | Implements NestJS modules following the approved plan |
-| `workspace-devops` | Handles Nx, Docker, operational setup, and README accuracy |
-| `scope-reviewer` | Reviews implementation against scope, rules, and repo state |
+| `frontend-implementer`   | Implements React features following the approved plan              |
+| `backend-implementer`    | Implements NestJS modules following the approved plan              |
+| `workspace-devops`       | Handles Nx, Docker, operational setup, and README accuracy         |
+| `scope-reviewer`         | Reviews implementation against scope, rules, and repo state        |
+
 
 This structure ensures that AI acts as a disciplined collaborator — planning before coding, respecting project rules, and validating against the challenge scope at each phase boundary.
 
@@ -54,16 +56,6 @@ Work is intentionally split into small phases, such as:
 - workspace and Docker improvements
 - final scope review
 
-## Optional libraries
-
-Some libraries may be used when justified by simplicity and maintainability, but they are not treated as mandatory unless explicitly required by the challenge scope.
-
-Examples:
-- TanStack Query
-- Zustand
-- shadcn/ui
-- React Hook Form
-
 ## Review expectations
 
 Before considering a phase complete, verify:
@@ -73,3 +65,4 @@ Before considering a phase complete, verify:
 - no unnecessary abstractions
 - accurate README instructions
 - correct operational endpoints and documentation when applicable
+

@@ -20,7 +20,7 @@ export function LoginPage() {
   const handleLogin = (data: LoginRequest) => {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
-        login(data.email, response.accessToken);
+        login(response.name, data.email, response.accessToken);
         navigate('/dashboard', { replace: true });
       },
     });

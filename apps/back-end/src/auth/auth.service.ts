@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { LoginDto, LoginResponseDto } from './dto';
 
+const DEFAULT_SEED_NAME = 'Administrador';
 const DEFAULT_SEED_EMAIL = 'admin@teddy.com';
 const DEFAULT_SEED_PASSWORD = 'password123';
 
@@ -34,10 +35,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, name: user.name };
     const accessToken = this.jwtService.sign(payload);
 
-    return { accessToken };
+    return { accessToken, name: user.name };
   }
 
   /** Creates a default user if the users table is empty. Not exposed via controller. */
@@ -50,6 +51,7 @@ export class AuthService {
 
     await this.userRepository.save(
       this.userRepository.create({
+        name: DEFAULT_SEED_NAME,
         email: DEFAULT_SEED_EMAIL,
         password: hashedPassword,
       }),

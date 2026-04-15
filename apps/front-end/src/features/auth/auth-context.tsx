@@ -4,7 +4,7 @@ import { AuthUser } from './types';
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
-  login: (email: string, token: string) => void;
+  login: (name: string, email: string, token: string) => void;
   logout: () => void;
 }
 
@@ -24,8 +24,8 @@ function loadUser(): AuthUser | null {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(loadUser);
 
-  const login = useCallback((email: string, token: string) => {
-    const authUser: AuthUser = { email, token };
+  const login = useCallback((name: string, email: string, token: string) => {
+    const authUser: AuthUser = { name, email, token };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(authUser));
     setUser(authUser);
   }, []);

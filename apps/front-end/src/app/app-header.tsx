@@ -49,7 +49,7 @@ export function AppHeader() {
         </nav>
 
         <span className="hidden text-[14px] text-gray-500 md:inline">
-          Olá, <strong className="font-bold text-gray-800">{user?.email?.split('@')[0] || 'Usuário'}</strong>!
+          Olá, <strong className="font-bold text-gray-800">{user?.name || 'Usuário'}</strong>!
         </span>
       </div>
 
@@ -66,7 +66,7 @@ export function AppHeader() {
               Sair
             </button>
             <span className="text-[14px] text-gray-500">
-              Olá, <strong className="font-bold text-gray-800">{user?.email?.split('@')[0] || 'Usuário'}</strong>!
+              Olá, <strong className="font-bold text-gray-800">{user?.name || 'Usuário'}</strong>!
             </span>
           </div>
         </nav>

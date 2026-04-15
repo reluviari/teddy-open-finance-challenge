@@ -5,9 +5,11 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
+  name: string;
 }
 
 export interface AuthUser {
+  name: string;
   email: string;
   token: string;
 }

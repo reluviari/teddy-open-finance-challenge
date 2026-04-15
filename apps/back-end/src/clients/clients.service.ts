@@ -13,6 +13,24 @@ import {
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 16;
 const LATEST_CLIENTS_LIMIT = 10;
+const SEED_COUNT = 67;
+
+const SEED_NAMES = [
+  'Eduardo Silva', 'Ana Oliveira', 'Carlos Santos', 'Mariana Costa', 'João Pereira',
+  'Fernanda Lima', 'Pedro Almeida', 'Juliana Ferreira', 'Lucas Rodrigues', 'Camila Souza',
+  'Rafael Martins', 'Beatriz Araújo', 'Gabriel Ribeiro', 'Larissa Gomes', 'Gustavo Barbosa',
+  'Amanda Cardoso', 'Diego Nascimento', 'Patrícia Mendes', 'Bruno Cavalcanti', 'Letícia Moreira',
+  'Thiago Teixeira', 'Natália Vieira', 'Felipe Carvalho', 'Isabela Monteiro', 'Rodrigo Pinto',
+  'Carolina Correia', 'Marcelo Duarte', 'Daniela Freitas', 'André Machado', 'Renata Nunes',
+  'Leonardo Azevedo', 'Vanessa Campos', 'Vinícius Rocha', 'Tatiana Dias', 'Henrique Ramos',
+  'Priscila Castro', 'Matheus Lopes', 'Aline Moura', 'Ricardo Cunha', 'Cláudia Borges',
+  'Alexandre Fonseca', 'Simone Rezende', 'Fábio Peixoto', 'Eliane Coelho', 'Leandro Melo',
+  'Cristina Braga', 'Sérgio Miranda', 'Michele Tavares', 'Paulo Andrade', 'Sandra Batista',
+  'Roberto Nogueira', 'Adriana Pires', 'Daniel Vasconcelos', 'Luciana Sampaio', 'Marcos Aguiar',
+  'Raquel Brito', 'Guilherme Farias', 'Débora Medeiros', 'Antônio Barreto', 'Viviane Assis',
+  'José Lacerda', 'Rosana Guimarães', 'Márcio Siqueira', 'Tânia Alencar', 'Wellington Franco',
+  'Elisa Domingues', 'Caio Monteiro',
+];
 
 /** Handles all client business logic including CRUD, soft delete, and view counting. */
 @Injectable()
@@ -113,6 +131,34 @@ export class ClientsService {
       latestClients: latestRaw.map((c) => this.toResponse(c)),
       chartData: chartRaw.map((r) => ({ month: r.month, count: Number(r.count) })),
     };
+  }
+
+  /** Seeds the clients table with sample data if empty. Idempotent. */
+  async seedClients(): Promise<void> {
+    const count = await this.clientRepository.count();
+    if (count > 0) return;
+
+    const startDate = new Date('2025-04-01T00:00:00Z');
+    const endDate = new Date('2026-03-31T23:59:59Z');
+    const dateRange = endDate.getTime() - startDate.getTime();
+
+    const clients = SEED_NAMES.slice(0, SEED_COUNT).map((name, i) => {
+      const seed = (i * 7919 + 1301) % 10000;
+      const salary = 3500 + (seed / 10000) * (23000 - 3500);
+      const companySeed = ((i * 6571 + 3037) % 10000);
+      const companyValue = 30000 + (companySeed / 10000) * (4000000 - 30000);
+      const dateSeed = ((i * 4391 + 2063) % 10000);
+      const createdAt = new Date(startDate.getTime() + (dateSeed / 10000) * dateRange);
+
+      return this.clientRepository.create({
+        name,
+        salary: Math.round(salary * 100) / 100,
+        companyValue: Math.round(companyValue * 100) / 100,
+        createdAt,
+      });
+    });
+
+    await this.clientRepository.save(clients);
   }
 
   private toResponse(client: Client): ClientResponseDto {

@@ -27,6 +27,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/apps/front-end"],
       "options": {
+        "config": "apps/front-end/vitest.config.ts",
         "passWithNoTests": true
       }
     }

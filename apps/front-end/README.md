@@ -156,3 +156,11 @@ npm run test:e2e:front
 | `e2e/auth.spec.ts` | 4 | (1) Redirect para /login sem auth, (2) Mensagem "sessão expirada" ao ser redirecionado, (3) Login válido redireciona para /dashboard e exibe nome, (4) Validação de campos vazios mostra erros |
 | `e2e/dashboard.spec.ts` | 5 | (1) Card "Total de clientes" visível, (2) Card "Soma de valor das empresas" visível, (3) Seção "Clientes por mês" (gráfico), (4) Tabela "Últimos 10 clientes", (5) Botão "Ver todos" navega para /clients |
 | `e2e/clients.spec.ts` | 4 | (1) Lista de cards com contagem, (2) Criar cliente via modal com máscara R$, (3) Editar cliente via modal, (4) Excluir cliente com confirmação e mensagem de sucesso |
+
+## CI
+
+Pipeline dedicado via GitHub Actions (`.github/workflows/frontend.yml`), acionado em push e pull request na branch `main` quando arquivos em `apps/front-end/**` são alterados.
+
+**Steps:** `npm ci` → `nx lint front-end` → `format:check` → `nx test front-end` → `nx build front-end`
+
+O pipeline executa os testes de componente (16 testes) e verifica formatação automaticamente. Testes E2E com Playwright não rodam no CI pois dependem da stack completa — devem ser executados localmente com `npm run test:e2e:front`.

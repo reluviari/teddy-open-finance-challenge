@@ -183,3 +183,11 @@ npm run test:e2e:back
 | Clients CRUD | 8 | (1) GET /clients sem token retorna 401, (2) GET /clients com token retorna lista paginada, (3) POST /clients cria cliente, (4) POST /clients com body inválido retorna 400, (5) GET /clients/:id retorna detalhe com viewCount 1, (6) GET /clients/:id novamente retorna viewCount 2, (7) PUT /clients/:id atualiza nome, (8) GET /clients/:id inexistente retorna 404 |
 | Soft delete | 2 | (1) DELETE /clients/:id retorna 204, (2) GET /clients/:id após delete retorna 404 |
 | Dashboard | 2 | (1) GET /clients/dashboard retorna totais + latestClients + chartData, (2) GET /clients/dashboard sem token retorna 401 |
+
+## CI
+
+Pipeline dedicado via GitHub Actions (`.github/workflows/backend.yml`), acionado em push e pull request na branch `main` quando arquivos em `apps/back-end/**` são alterados.
+
+**Steps:** `npm ci` → `nx lint back-end` → `nx test back-end` → `nx build back-end`
+
+O pipeline executa os testes unitários (26 testes) automaticamente. Testes E2E não rodam no CI pois dependem de PostgreSQL — devem ser executados localmente com `npm run test:e2e:back`.

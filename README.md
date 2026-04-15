@@ -181,6 +181,7 @@ teddy-open-finance-challenge/
 │       └── .env.example
 ├── docker-compose.yml        Stack completa (postgres + backend + frontend)
 ├── .env.example
+├── .github/workflows/           CI pipelines (GitHub Actions)
 ├── .cursor/rules/               Regras persistentes para a AI
 └── docs/
     ├── teddy-challenge-scope.md  Escopo do desafio
@@ -213,6 +214,19 @@ O projeto possui 4 camadas de testes:
 Para detalhes de cobertura, cenários testados e passo a passo de cada tipo, veja o README de cada app:
 - [Backend — Testes](./apps/back-end/README.md#testes)
 - [Frontend — Testes](./apps/front-end/README.md#testes)
+
+## Integração Contínua (CI)
+
+O projeto utiliza GitHub Actions com pipelines separados por app, acionados automaticamente em push e pull request na branch `main`.
+
+| Workflow | Arquivo | Trigger (path filter) | Steps |
+|---|---|---|---|
+| **Backend CI** | `.github/workflows/backend.yml` | `apps/back-end/**` | lint → test → build |
+| **Frontend CI** | `.github/workflows/frontend.yml` | `apps/front-end/**` | lint → format check → test → build |
+
+Cada pipeline executa os targets Nx do respectivo app (`nx lint`, `nx test`, `nx build`), garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa. Dependências são cacheadas via `actions/setup-node` com cache npm.
+
+O escopo atual cobre CI (validação automatizada). CD (deploy automatizado) não foi implementado, pois não há infraestrutura de deploy configurada — a seção [Escalabilidade](#escalabilidade-visão-aws) descreve como a aplicação poderia ser implantada em cloud.
 
 ## Observabilidade
 

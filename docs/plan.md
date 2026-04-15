@@ -168,11 +168,13 @@
 
 ---
 
-## Fase 15 — CI/CD (diferencial)
+## Fase 15 — CI/CD (diferencial) ✅
 
-- GitHub Actions workflow para frontend (lint, test, build)
+- GitHub Actions workflow para frontend (lint, format check, test, build)
 - GitHub Actions workflow para backend (lint, test, build)
-- Pipelines separados usando Nx affected
+- Pipelines separados com path filters (apps/front-end/**, apps/back-end/**)
+- Trigger em push e pull_request na branch main
+- Cache de dependências npm
 
 ---
 

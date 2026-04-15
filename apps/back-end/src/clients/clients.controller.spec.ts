@@ -25,7 +25,7 @@ describe('ClientsController', () => {
   });
 
   it('should delegate create to service', async () => {
-    const inputDto = { name: 'John', email: 'j@t.com', salary: 5000, companyValue: 100000 };
+    const inputDto = { name: 'John', salary: 5000, companyValue: 100000 };
     const expectedResponse = { id: 'uuid-1', ...inputDto, viewCount: 0, createdAt: new Date(), updatedAt: new Date() };
     mockService.create.mockResolvedValue(expectedResponse);
 

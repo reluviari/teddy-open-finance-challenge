@@ -10,7 +10,6 @@ describe('ClientsService', () => {
   const mockClient: Client = {
     id: 'uuid-1',
     name: 'John Doe',
-    email: 'john@example.com',
     salary: 5000,
     companyValue: 100000,
     viewCount: 0,
@@ -42,7 +41,6 @@ describe('ClientsService', () => {
   describe('create', () => {
     const inputCreate = {
       name: 'John Doe',
-      email: 'john@example.com',
       salary: 5000,
       companyValue: 100000,
     };

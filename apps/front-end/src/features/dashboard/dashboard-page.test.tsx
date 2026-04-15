@@ -80,7 +80,6 @@ describe('DashboardPage', () => {
           {
             id: '1',
             name: 'Jane Doe',
-            email: 'jane@example.com',
             salary: 5000,
             companyValue: 100000,
             viewCount: 2,

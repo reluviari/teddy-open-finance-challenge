@@ -165,7 +165,6 @@ export class ClientsService {
     return {
       id: client.id,
       name: client.name,
-      email: client.email,
       salary: Number(client.salary),
       companyValue: Number(client.companyValue),
       viewCount: client.viewCount,

@@ -16,9 +16,6 @@ export class Client {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  email: string;
-
   @Column({ type: 'decimal', precision: 12, scale: 2 })
   salary: number;
 

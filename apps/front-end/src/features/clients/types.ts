@@ -1,7 +1,6 @@
 export interface ClientResponse {
   id: string;
   name: string;
-  email?: string;
   salary: number;
   companyValue: number;
   viewCount: number;

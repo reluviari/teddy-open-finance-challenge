@@ -102,9 +102,11 @@
 
 ## Fase 9 — Melhorar diagramas Mermaid ✅
 
-- Diagrama no README raiz
-- Diagrama no README do back-end
-- Diagrama no README do front-end
+- README raiz: diagrama Container limpo (Browser → Frontend → Backend → PostgreSQL)
+- README raiz: imagem PNG colorida em docs/architecture.png
+- README back-end: diagrama de módulos NestJS (auth, clients, health, metrics)
+- README front-end: diagrama de features React (auth, clients, dashboard, api client)
+- Separação de níveis: visão geral no raiz, detalhes técnicos nos apps
 
 ---
 

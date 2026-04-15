@@ -5,52 +5,23 @@ MVP full-stack de um sistema de clientes com login, CRUD, listagem, detalhes e d
 ## Diagrama de arquitetura
 
 ```mermaid
-graph TB
-    Browser["🌐 Browser"]
+graph LR
+    Browser["Browser"]
 
-    subgraph Docker["Docker Compose"]
-        subgraph FE["front-end :5173"]
-            Nginx["Nginx (SPA)"]
-            subgraph ReactApp["React + Vite + TypeScript"]
-                AuthFeature["features/auth"]
-                ClientsFeature["features/clients"]
-                DashboardFeature["features/dashboard"]
-            end
-        end
-
-        subgraph BE["back-end :3000"]
-            subgraph NestJS["NestJS"]
-                AuthModule["auth/"]
-                ClientsModule["clients/"]
-                HealthModule["health/"]
-                MetricsModule["metrics/"]
-            end
-            subgraph Common["common/"]
-                JWTGuard["JWT Guard"]
-                ExceptionFilter["Exception Filter"]
-                Logger["JSON Logger"]
-                Interceptor["Logging Interceptor"]
-            end
-        end
-
-        Postgres[("PostgreSQL :5432")]
+    subgraph DockerCompose["Docker Compose"]
+        Frontend["Front-end\nReact + Vite + TypeScript\n:5173"]
+        Backend["Back-end API\nNestJS + TypeORM + JWT + Swagger\n:3000"]
+        Database[("PostgreSQL\n:5432")]
     end
 
-    Browser -->|":5173"| Nginx
-    Nginx -->|"SPA routes"| ReactApp
-    Nginx -->|"/api proxy"| NestJS
-    Browser -->|":3000"| NestJS
-
-    AuthFeature -->|"POST /auth/login"| AuthModule
-    ClientsFeature -->|"CRUD /clients"| ClientsModule
-    DashboardFeature -->|"GET /clients/dashboard"| ClientsModule
-
-    AuthModule --> Postgres
-    ClientsModule --> Postgres
-
-    JWTGuard -.->|"protects"| ClientsModule
-    Interceptor -.->|"feeds"| MetricsModule
+    Browser -->|HTTP| Frontend
+    Frontend -->|"REST API / JSON"| Backend
+    Backend -->|SQL| Database
 ```
+
+> Versão detalhada com módulos internos: veja o README de cada app ([back-end](./apps/back-end/README.md), [front-end](./apps/front-end/README.md))
+>
+> Versão colorida: [docs/architecture.png](./docs/architecture.png)
 
 
 

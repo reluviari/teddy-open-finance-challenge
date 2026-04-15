@@ -6,27 +6,13 @@ API NestJS modular com TypeORM + PostgreSQL, autenticação JWT, Swagger, soft d
 
 ```mermaid
 graph LR
-    Client["HTTP Client"]
+    Client["Front-end / HTTP Client"]
 
     subgraph NestJS["NestJS :3000"]
-        direction TB
-        Main["main.ts"]
-        Main --> Pipes["ValidationPipe"]
-        Main --> Filter["HttpExceptionFilter"]
-        Main --> Interceptor["LoggingInterceptor"]
-        Main --> Swagger["Swagger /docs"]
-
-        subgraph Modules
-            AuthMod["auth/"]
-            ClientsMod["clients/"]
-            HealthMod["health/"]
-            MetricsMod["metrics/"]
-        end
-
-        subgraph Common
-            Guard["JwtAuthGuard"]
-            Logger["JsonLoggerService"]
-        end
+        AuthMod["auth/\nLogin + JWT + Seed"]
+        ClientsMod["clients/\nCRUD + Soft Delete + Dashboard"]
+        HealthMod["health/\nGET /healthz"]
+        MetricsMod["metrics/\nGET /metrics"]
     end
 
     DB[("PostgreSQL :5432")]
@@ -36,12 +22,11 @@ graph LR
     Client -->|"GET /healthz"| HealthMod
     Client -->|"GET /metrics"| MetricsMod
 
-    Guard -.->|"protects"| ClientsMod
-    Interceptor -.->|"feeds"| MetricsMod
-
-    AuthMod --> DB
-    ClientsMod --> DB
+    AuthMod -->|SQL| DB
+    ClientsMod -->|SQL| DB
 ```
+
+Cada módulo é auto-contido com controller, service, DTOs e testes. Middleware global: `ValidationPipe`, `HttpExceptionFilter`, `LoggingInterceptor`, `JsonLoggerService`, `JwtAuthGuard`.
 
 ## Stack
 

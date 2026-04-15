@@ -5,33 +5,27 @@ SPA React + Vite + TypeScript com React Hook Form, Recharts e Tailwind CSS.
 ## Arquitetura
 
 ```mermaid
-graph TB
-    Browser["🌐 Browser :5173"]
+graph LR
+    Browser["Browser :5173"]
 
-    subgraph App["React + Vite"]
-        Providers["AuthProvider + BrowserRouter"]
-
-        subgraph Features
-            Auth["features/auth<br/>LoginPage, AuthContext, ProtectedRoute"]
-            Clients["features/clients<br/>List, Detail, Form"]
-            Dashboard["features/dashboard<br/>Totals, Latest, Chart"]
-        end
-
-        Shared["shared/lib/api.ts"]
+    subgraph ReactApp["React + Vite + TypeScript"]
+        Auth["features/auth\nLogin, AuthContext, ProtectedRoute"]
+        Clients["features/clients\nList, Detail, Form, Selected"]
+        Dashboard["features/dashboard\nTotals, Chart, Latest"]
+        ApiClient["shared/lib/api.ts\nfetch + JWT"]
     end
 
-    API["Back-End API :3000"]
+    API["Back-end API :3000"]
 
-    Browser --> Providers
-    Providers --> Auth
-    Providers --> Clients
-    Providers --> Dashboard
+    Browser --> Auth
+    Browser --> Clients
+    Browser --> Dashboard
 
-    Auth -->|"POST /auth/login"| Shared
-    Clients -->|"CRUD /clients"| Shared
-    Dashboard -->|"GET /clients/dashboard"| Shared
+    Auth -->|"POST /auth/login"| ApiClient
+    Clients -->|"CRUD /clients"| ApiClient
+    Dashboard -->|"GET /clients/dashboard"| ApiClient
 
-    Shared -->|"fetch + JWT"| API
+    ApiClient -->|"HTTP + Bearer token"| API
 ```
 
 ## Stack

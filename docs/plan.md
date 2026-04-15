@@ -116,9 +116,11 @@
 
 ---
 
-## Fase 11 — E2e test do login flow (diferencial)
+## Fase 11 — E2E tests (diferencial) ✅
 
-- E2e test do fluxo de login (backend)
+- Backend E2E com supertest: health, metrics, auth, CRUD completo, dashboard, 401
+- Frontend E2E com Playwright: login, dashboard, clientes (criar, editar, excluir, detalhe)
+- Scripts: test:e2e:back e test:e2e:front
 
 ---
 
@@ -142,13 +144,16 @@
 
 ---
 
-## Fase 13 — Validação manual do fluxo completo
+## Fase 13 — Validação manual do fluxo completo ✅
 
-- Login via API → JWT retornado
+- Login via API → JWT retornado com name
 - Create client via API → cliente criado
-- List clients via API → lista retornada
-- Dashboard via API → totais, latest, chartData
-- Fluxo completo via frontend (navegador)
+- List clients via API → lista com 67 clientes do seed
+- Dashboard via API → totais, latest (10), chartData com meses
+- GET /clients/:id → detalhe com viewCount incremental
+- PUT /clients/:id → atualização confirmada
+- DELETE /clients/:id → 204 soft delete
+- Fluxo completo via frontend (login → dashboard → clientes → detalhe → selecionados)
 
 ---
 

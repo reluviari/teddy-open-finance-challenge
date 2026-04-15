@@ -255,10 +255,28 @@ Usuário criado automaticamente via seed quando o banco está vazio.
 
 ## Testes
 
-- **Backend**: Jest — testes unitários de services e controllers
-- **Frontend**: Vitest + Testing Library — testes de componente
-- Padrão Arrange-Act-Assert para testes unitários
-- Cobertura de estados: loading, error, success e empty
+O projeto possui 4 camadas de testes:
+
+| Tipo | Ferramenta | Escopo |
+|---|---|---|
+| **Unitário (backend)** | Jest | Services e controllers isolados |
+| **Componente (frontend)** | Vitest + Testing Library | Componentes React com estados (loading, error, success, empty) |
+| **E2E API (backend)** | Jest + supertest | Fluxo HTTP real: health, auth, CRUD, dashboard, 401 |
+| **E2E Browser (frontend)** | Playwright | Fluxo completo no navegador: login, dashboard, CRUD de clientes |
+
+### Comandos rápidos
+
+| Comando | Descrição |
+|---|---|
+| `npm run test` | Todos os testes unitários e de componente |
+| `npm run test:back` | Unitários do backend |
+| `npm run test:front` | Componente do frontend |
+| `npm run test:e2e:back` | E2E do backend (requer PostgreSQL rodando) |
+| `npm run test:e2e:front` | E2E do frontend (requer stack completa rodando) |
+
+Para detalhes de cobertura, cenários testados e passo a passo de cada tipo, veja o README de cada app:
+- [Backend — Testes](./apps/back-end/README.md#testes)
+- [Frontend — Testes](./apps/front-end/README.md#testes)
 
 ## Desenvolvimento assistido por AI
 
@@ -273,7 +291,7 @@ O desenvolvimento seguiu um ciclo claro para cada fase do projeto:
 3. **Regras persistentes** — o projeto mantém um conjunto de regras em `.cursor/rules/` que guiam o comportamento da AI: arquitetura, convenções de código, estrutura do monorepo, qualidade e operação. Essas regras garantem consistência mesmo entre sessões diferentes.
 4. **Revisão antes de fechar** — ao final de cada fase, uma revisão compara a implementação com os requisitos do desafio para garantir que nada foi esquecido ou sobre-engenheirado.
 
-Para mais detalhes sobre o fluxo, os agentes e as regras, veja `docs/ai-workflow.md`  e `docs/teddy-challenge-agents-setup.md` 
+Para mais detalhes sobre o fluxo, os agentes e as regras, veja `docs/ai-workflow.md`  e `docs/teddy-challenge-agents-setup.md`
 
 ## Escalabilidade (visão AWS)
 

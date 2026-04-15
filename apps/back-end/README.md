@@ -158,8 +158,43 @@ O servidor inicia em http://localhost:3000 com watch mode. Alterações no códi
 
 ## Testes
 
+### Testes unitários
+
+Testes isolados de services e controllers com mocks. Padrão Arrange-Act-Assert.
+
 ```bash
 npm run test:back
 ```
 
-Testes unitários com Jest para services e controllers. Padrão Arrange-Act-Assert.
+**Cobertura:**
+
+**26 testes em 6 arquivos:**
+
+| Arquivo | # | Cenários |
+|---|---|---|
+| `auth.service.spec.ts` | 5 | Login com credenciais válidas retorna JWT, usuário inexistente (401), senha inválida (401), seed cria usuário se vazio, seed não recria se já existe |
+| `auth.controller.spec.ts` | 2 | Delegação ao service, propagação de exceções |
+| `clients.service.spec.ts` | 9 | Criar, listar com total, listar vazio, detalhe com viewCount, NotFoundException no detalhe, atualizar, NotFoundException no update, soft delete, NotFoundException no delete |
+| `clients.controller.spec.ts` | 6 | Delegação de create, findAll, findOne, update, remove, getDashboardStats |
+| `health.controller.spec.ts` | 1 | Resposta com status ok e timestamp |
+| `metrics.service.spec.ts` | 3 | Formato Prometheus válido, incremento de requests, incremento de erros |
+
+### Testes E2E (API)
+
+Testes de integração que sobem a aplicação NestJS real com supertest e testam o fluxo HTTP completo contra o PostgreSQL.
+
+**Pré-requisito:** PostgreSQL rodando (via `docker compose up -d postgres`).
+
+```bash
+npm run test:e2e:back
+```
+
+**15 testes em 1 arquivo (`app.e2e-spec.ts`):**
+
+| Grupo | # | Cenários |
+|---|---|---|
+| Health & Metrics | 2 | (1) GET /healthz retorna status ok + timestamp, (2) GET /metrics retorna texto Prometheus com HELP/TYPE |
+| Auth | 3 | (1) Login válido retorna JWT + name "Administrador", (2) Login com senha errada retorna 401, (3) Login com body inválido retorna 400 |
+| Clients CRUD | 8 | (1) GET /clients sem token retorna 401, (2) GET /clients com token retorna lista paginada, (3) POST /clients cria cliente, (4) POST /clients com body inválido retorna 400, (5) GET /clients/:id retorna detalhe com viewCount 1, (6) GET /clients/:id novamente retorna viewCount 2, (7) PUT /clients/:id atualiza nome, (8) GET /clients/:id inexistente retorna 404 |
+| Soft delete | 2 | (1) DELETE /clients/:id retorna 204, (2) GET /clients/:id após delete retorna 404 |
+| Dashboard | 2 | (1) GET /clients/dashboard retorna totais + latestClients + chartData, (2) GET /clients/dashboard sem token retorna 401 |

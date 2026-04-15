@@ -17,7 +17,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   });
 
   if (!response.ok) {
-    if (response.status === 401) {
+    if (response.status === 401 && !path.startsWith('/auth/')) {
       localStorage.removeItem('teddy_auth');
       window.location.href = '/login?expired=true';
       throw new Error('Sessão expirada');

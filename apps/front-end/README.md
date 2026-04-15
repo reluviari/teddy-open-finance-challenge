@@ -125,8 +125,40 @@ O dev server inicia em http://localhost:5173. O Vite proxy redireciona chamadas 
 
 ## Testes
 
+### Testes de componente
+
+Testes de componentes React com Vitest + Testing Library. Cobrem estados de loading, error, success e empty.
+
 ```bash
 npm run test:front
 ```
 
-Testes de componente com Vitest + Testing Library. Cobertura de estados: loading, error, success e empty.
+**16 testes em 5 arquivos:**
+
+| Arquivo | # | Cenários |
+|---|---|---|
+| `login-page.test.tsx` | 3 | (1) Formulário renderizado com campos e botão, (2) Validação de campos vazios no submit, (3) Validação de senha com menos de 6 caracteres |
+| `clients-list-page.test.tsx` | 4 | (1) Estado de loading, (2) Erro com botão de retry, (3) Estado vazio, (4) Grid de cards com contagem |
+| `client-detail-page.test.tsx` | 3 | (1) Estado de loading, (2) Estado de erro, (3) Detalhe com contador de visualizações |
+| `client-form-page.test.tsx` | 2 | (1) Formulário de criação com 3 campos, (2) Validação de nome obrigatório |
+| `dashboard-page.test.tsx` | 4 | (1) Estado de loading, (2) Estado de erro, (3) Estado vazio com zeros, (4) Totais e tabela de últimos clientes |
+
+### Testes E2E (Browser)
+
+Testes end-to-end com Playwright que abrem o Chromium e navegam pela aplicação real.
+
+**Pré-requisitos:**
+1. Stack completa rodando (`docker compose up --build` ou dev servers)
+2. Playwright instalado (`npx playwright install chromium`)
+
+```bash
+npm run test:e2e:front
+```
+
+**13 testes em 3 arquivos:**
+
+| Arquivo | # | Cenários |
+|---|---|---|
+| `e2e/auth.spec.ts` | 4 | (1) Redirect para /login sem auth, (2) Mensagem "sessão expirada" ao ser redirecionado, (3) Login válido redireciona para /dashboard e exibe nome, (4) Validação de campos vazios mostra erros |
+| `e2e/dashboard.spec.ts` | 5 | (1) Card "Total de clientes" visível, (2) Card "Soma de valor das empresas" visível, (3) Seção "Clientes por mês" (gráfico), (4) Tabela "Últimos 10 clientes", (5) Botão "Ver todos" navega para /clients |
+| `e2e/clients.spec.ts` | 4 | (1) Lista de cards com contagem, (2) Criar cliente via modal com máscara R$, (3) Editar cliente via modal, (4) Excluir cliente com confirmação e mensagem de sucesso |

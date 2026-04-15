@@ -256,13 +256,70 @@ O escopo atual cobre CI (validação automatizada). CD (deploy automatizado) nã
 
 ## Escalabilidade (visão AWS)
 
-Para produção em cloud, a arquitetura poderia ser implantada com:
+O diagrama abaixo ilustra como a aplicação poderia ser implantada em ambiente AWS, considerando escalabilidade, segurança e observabilidade.
 
-- **Frontend**: S3 + CloudFront (CDN)
-- **Backend**: ECS Fargate ou EKS com auto-scaling
-- **Banco**: RDS PostgreSQL com Multi-AZ
-- **Observabilidade**: CloudWatch Logs, X-Ray para tracing, métricas custom via Prometheus/Grafana
-- **Auth**: manter JWT stateless, considerar integração com Cognito para cenários mais complexos
+```mermaid
+flowchart LR
+    user["User / Browser"]
+
+    subgraph aws["AWS Cloud"]
+        subgraph edge["Edge"]
+            route53["Route 53\nDNS"]
+            waf["AWS WAF"]
+            cf["CloudFront\nCDN + TLS"]
+        end
+
+        s3["S3\nStatic Frontend"]
+
+        subgraph vpc["VPC"]
+            subgraph publicSubnet["Public Subnet"]
+                alb["Application\nLoad Balancer"]
+            end
+
+            subgraph privateSubnet["Private Subnet"]
+                subgraph eks["EKS Cluster"]
+                    ingress["Ingress\nController"]
+                    pods["NestJS API\nPods (HPA)"]
+                end
+                rds[("RDS PostgreSQL\nMulti-AZ")]
+            end
+        end
+
+        subgraph services["Supporting Services"]
+            ecr["ECR\nContainer Registry"]
+            cw["CloudWatch\nLogs + Metrics"]
+            sm["Secrets Manager\nJWT, DB credentials"]
+        end
+    end
+
+    user -->|DNS| route53
+    route53 --> waf
+    waf --> cf
+    cf -->|Static assets| s3
+    cf -->|API requests| alb
+    alb --> ingress
+    ingress --> pods
+    pods -->|SQL| rds
+    pods -->|Logs, Metrics| cw
+    pods -->|Secrets| sm
+    ecr -.->|Image pull| pods
+```
+
+> Versão em imagem: [docs/aws-architecture.png](./docs/aws-architecture.png)
+
+### Decisões de arquitetura
+
+| Componente | Escolha | Justificativa |
+|---|---|---|
+| **Frontend** | S3 + CloudFront | Assets estáticos servidos globalmente via CDN com TLS na edge. Elimina servidor web para o frontend |
+| **WAF** | AWS WAF no CloudFront | Proteção contra SQL injection, XSS e ataques volumétricos antes de chegar à API |
+| **Backend** | EKS com HPA | Pods NestJS com Horizontal Pod Autoscaler — escala automaticamente com base em CPU/requests |
+| **Banco** | RDS PostgreSQL Multi-AZ | Failover automático para alta disponibilidade. Standby em outra AZ com replicação síncrona |
+| **Rede** | VPC com subnets públicas e privadas | ALB na subnet pública, API e banco na subnet privada — isolamento de rede |
+| **Imagens** | ECR | Container registry privado. CI faz build → push para ECR → deploy no EKS |
+| **Secrets** | Secrets Manager | JWT_SECRET e credenciais do banco gerenciados fora do código, com rotação automática |
+| **Observabilidade** | CloudWatch | Logs JSON estruturados e métricas Prometheus já implementados na aplicação, prontos para ingestão |
+| **Auth** | JWT stateless | Mantém a arquitetura atual. Para cenários mais complexos (MFA, SSO), considerar Cognito |
 
 ## Desenvolvimento assistido por AI
 

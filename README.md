@@ -225,7 +225,7 @@ O projeto utiliza GitHub Actions com pipelines separados por app, acionados auto
 | **Backend CI** | `.github/workflows/backend.yml` | `apps/back-end/**` | lint → unit tests → E2E tests → build |
 | **Frontend CI** | `.github/workflows/frontend.yml` | `apps/front-end/**` | lint → format check → component tests → build |
 
-O pipeline do backend sobe um service container PostgreSQL para executar os testes E2E (15 testes com supertest contra a API real). Cada pipeline usa targets Nx isolados e path filters, garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa.
+O pipeline do backend sobe um service container PostgreSQL para executar os testes E2E (15 testes com supertest contra a API real). Cada pipeline usa targets Nx isolados e path filters, garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa. Commits que alteram apenas arquivos fora de `apps/` (como README raiz, docs ou configurações do monorepo) não acionam nenhum pipeline — o CI roda somente quando código de um dos apps é modificado.
 
 ### Pre-push hook
 

@@ -18,7 +18,9 @@ export function ClientDetailPage() {
   if (isError) {
     return (
       <div className="p-8">
-        <p className="text-red-600">Não foi possível carregar os dados do cliente. Tente novamente.</p>
+        <p className="text-red-600">
+          Não foi possível carregar os dados do cliente. Tente novamente.
+        </p>
       </div>
     );
   }

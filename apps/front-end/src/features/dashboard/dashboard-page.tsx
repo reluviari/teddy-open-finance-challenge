@@ -37,7 +37,9 @@ export function DashboardPage() {
   if (isError) {
     return (
       <div className="p-8">
-        <p className="text-red-600">Não foi possível carregar o dashboard. Tente novamente mais tarde.</p>
+        <p className="text-red-600">
+          Não foi possível carregar o dashboard. Tente novamente mais tarde.
+        </p>
       </div>
     );
   }

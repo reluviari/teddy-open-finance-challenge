@@ -10,10 +10,7 @@ import {
 import { DashboardPage } from '@/features/dashboard';
 import { Layout } from './layout';
 
-class ErrorBoundary extends Component<
-  { children: ReactNode },
-  { hasError: boolean }
-> {
+class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {

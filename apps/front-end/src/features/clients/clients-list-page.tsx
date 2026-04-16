@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useClients } from './hooks/use-clients';
 import { useCreateClient, useUpdateClient, useDeleteClient } from './hooks/use-client-mutations';
+import { useAuth } from '@/features/auth';
+import { api } from '@/shared/lib/api';
 import { useSelectedClients } from './selected-clients-context';
 import { ClientsToolbar } from './clients-toolbar';
 import { ClientCard } from './client-card';
@@ -34,6 +37,8 @@ function SuccessToast({ message, onDone }: { message: string; onDone: () => void
 }
 
 export function ClientsListPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
 
@@ -50,6 +55,19 @@ export function ClientsListPage() {
   const [editingClient, setEditingClient] = useState<ClientResponse | null>(null);
   const [deletingClient, setDeletingClient] = useState<ClientResponse | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const editId = searchParams.get('edit');
+    if (!editId || !user) return;
+
+    searchParams.delete('edit');
+    setSearchParams(searchParams, { replace: true });
+
+    api
+      .get<ClientResponse>(`/clients/${editId}`, user.token)
+      .then((client) => setEditingClient(client))
+      .catch(() => {});
+  }, [searchParams, setSearchParams, user]);
 
   const clients = data?.data ?? [];
   const totalClients = data?.total ?? 0;

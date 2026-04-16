@@ -65,7 +65,7 @@ export function ClientDetailPage() {
 
         <div className="mt-6 flex flex-wrap gap-3">
           <button
-            onClick={() => navigate('/clients')}
+            onClick={() => navigate(`/clients?edit=${id}`)}
             className="rounded-[4px] bg-teddy-orange px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-teddy-orange-hover"
           >
             Editar

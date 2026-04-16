@@ -397,4 +397,4 @@ O desenvolvimento seguiu um ciclo claro para cada fase do projeto:
 3. **Regras persistentes** — o projeto mantém um conjunto de regras em `.cursor/rules/` que guiam o comportamento da AI: arquitetura, convenções de código, estrutura do monorepo, qualidade e operação. Essas regras garantem consistência mesmo entre sessões diferentes.
 4. **Revisão antes de fechar** — ao final de cada fase, uma revisão compara a implementação com os requisitos do desafio para garantir que nada foi esquecido ou sobre-engenheirado.
 
-Para mais detalhes sobre o fluxo, os agentes e as regras, veja `[docs/ai-workflow.md](./docs/ai-workflow.md)`.
+Para mais detalhes sobre o fluxo e as regras, veja [docs/ai-workflow.md](./docs/ai-workflow.md). Para a definição dos agentes, veja [docs/teddy-challenge-agents-setup.md](./docs/teddy-challenge-agents-setup.md).

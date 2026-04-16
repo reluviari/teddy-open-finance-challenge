@@ -7,12 +7,16 @@ on:
       - 'apps/back-end/**'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/backend.yml'
+      - '.github/workflows/deploy-backend.yml'
   pull_request:
     branches: [main]
     paths:
       - 'apps/back-end/**'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/backend.yml'
+      - '.github/workflows/deploy-backend.yml'
 
 jobs:
   ci:

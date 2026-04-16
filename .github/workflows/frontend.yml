@@ -7,12 +7,18 @@ on:
       - 'apps/front-end/**'
       - 'package.json'
       - 'package-lock.json'
+      - 'vercel.json'
+      - '.github/workflows/frontend.yml'
+      - '.github/workflows/deploy-frontend.yml'
   pull_request:
     branches: [main]
     paths:
       - 'apps/front-end/**'
       - 'package.json'
       - 'package-lock.json'
+      - 'vercel.json'
+      - '.github/workflows/frontend.yml'
+      - '.github/workflows/deploy-frontend.yml'
 
 jobs:
   ci:

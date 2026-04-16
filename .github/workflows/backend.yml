@@ -53,13 +53,13 @@ jobs:
       - run: npm ci
 
       - name: Lint
-        run: npx nx lint back-end
+        run: NX_DAEMON=false npx nx lint back-end
 
       - name: Unit tests
-        run: npx nx test back-end
+        run: NX_DAEMON=false npx nx test back-end
 
       - name: E2E tests
-        run: npm run test:e2e:back
+        run: NX_DAEMON=false npm run test:e2e:back
 
       - name: Build
-        run: npx nx build back-end
+        run: NX_DAEMON=false npx nx build back-end

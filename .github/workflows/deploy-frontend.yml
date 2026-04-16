@@ -21,14 +21,28 @@ jobs:
 
       - run: npm ci
 
+      - name: Build with Nx
+        run: NX_DAEMON=false npx nx build front-end
+
       - name: Install Vercel CLI
         run: npm install -g vercel
 
       - name: Pull Vercel environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Prepare Vercel output
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r dist/apps/front-end/* .vercel/output/static/
+          cat > .vercel/output/config.json << 'CONF'
+          {
+            "version": 3,
+            "routes": [
+              { "handle": "filesystem" },
+              { "src": "/(.*)", "dest": "/index.html" }
+            ]
+          }
+          CONF
 
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

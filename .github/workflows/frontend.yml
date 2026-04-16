@@ -29,13 +29,13 @@ jobs:
       - run: npm ci
 
       - name: Lint
-        run: npx nx lint front-end
+        run: NX_DAEMON=false npx nx lint front-end
 
       - name: Format check
         run: npm run format:check
 
       - name: Test
-        run: npx nx test front-end
+        run: NX_DAEMON=false npx nx test front-end
 
       - name: Build
-        run: npx nx build front-end
+        run: NX_DAEMON=false npx nx build front-end

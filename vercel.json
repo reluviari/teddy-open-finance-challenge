@@ -1,6 +1,6 @@
 {
   "installCommand": "npm ci",
-  "buildCommand": "npx nx build front-end",
+  "buildCommand": "NX_DAEMON=false npx nx build front-end",
   "outputDirectory": "dist/apps/front-end",
   "framework": null
 }

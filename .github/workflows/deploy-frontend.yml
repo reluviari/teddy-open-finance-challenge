@@ -23,6 +23,8 @@ jobs:
 
       - name: Build
         run: cd apps/front-end && npx vite build
+        env:
+          VITE_API_URL: https://teddy-open-finance-challenge.onrender.com
 
       - name: Install Vercel CLI
         run: npm install -g vercel

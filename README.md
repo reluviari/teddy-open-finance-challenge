@@ -252,9 +252,9 @@ Após o CI passar com sucesso, workflows de deploy são acionados automaticament
 
 | Ambiente | URL |
 |---|---|
-| Frontend (Vercel) | [https://teddy-open-finance-challenge.vercel.app](https://teddy-open-finance-challenge.vercel.app) |
-| Backend API (Render) | *configurado via secret `RENDER_DEPLOY_HOOK`* |
-| Swagger | `<backend-url>/docs` |
+| Frontend (Vercel) | [https://teddy-open-finance-challenge-red.vercel.app](https://teddy-open-finance-challenge-red.vercel.app) |
+| Backend API (Render) | [https://teddy-open-finance-challenge.onrender.com](https://teddy-open-finance-challenge.onrender.com) |
+| Swagger | [https://teddy-open-finance-challenge.onrender.com/docs](https://teddy-open-finance-challenge.onrender.com/docs) |
 
 O backend no Render utiliza o `Dockerfile` existente e PostgreSQL managed. O free tier dorme após 15 minutos de inatividade — o primeiro acesso pode levar ~30 segundos para o serviço acordar.
 

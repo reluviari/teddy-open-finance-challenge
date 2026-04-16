@@ -184,6 +184,7 @@ npm run dev:front                    # frontend com hot reload (terminal 2)
 | Prettier     | Formatação                              |
 | TypeScript 5 | Tipagem                                 |
 
+O Nx atua como orquestrador de **build**, **lint** e **test** dentro do monorepo — cada app possui targets independentes (`serve`, `build`, `lint`, `test`) definidos no seu `project.json`. O deploy de cada app é totalmente independente: o frontend é publicado na Vercel como site estático e o backend é publicado no Render como container Docker, cada um com seu próprio workflow de CD. Alterações no frontend não disparam deploy do backend e vice-versa. Essa é a vantagem do monorepo com Nx: código em um único repositório com visibilidade compartilhada, mas pipelines de CI/CD, build e deploy completamente separados por app.
 
 ## Estrutura de pastas
 

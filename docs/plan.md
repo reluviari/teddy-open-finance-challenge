@@ -178,10 +178,15 @@
 
 ---
 
-## Fase 16 — Revisão final
+## Fase 16 — Revisão final ✅
 
 - Conferir escopo (`docs/teddy-challenge-scope.md`) item a item
 - Conferir regras (`.cursor/rules/`) — nenhuma violação aberta
 - README raiz com visão geral, diagrama, instruções, escalabilidade
 - Código-fonte completo e limpo
+- Contagem de testes corrigida nos READMEs (E2E 15→17, componente 16→19)
+- Descrições de CI, proxy e guards corrigidas nos READMEs
+- ErrorBoundary adicionado, imports reordenados, mensagens de erro amigáveis
+- Fallback hardcoded de JWT_SECRET removido
+- Testes de login ampliados (loading, erro API, submit válido)
 

@@ -26,7 +26,7 @@ graph LR
     ClientsMod -->|SQL| DB
 ```
 
-Cada módulo é auto-contido com controller, service, DTOs e testes. Middleware global: `ValidationPipe`, `HttpExceptionFilter`, `LoggingInterceptor`, `JsonLoggerService`, `JwtAuthGuard`.
+Cada módulo é auto-contido com controller, service, DTOs e testes. Middleware global: `ValidationPipe`, `HttpExceptionFilter`, `LoggingInterceptor`, `JsonLoggerService`. O `JwtAuthGuard` é aplicado por controller nas rotas protegidas.
 
 ## Stack
 
@@ -174,7 +174,7 @@ Testes de integração que sobem a aplicação NestJS real com supertest e testa
 npm run test:e2e:back
 ```
 
-**15 testes em 1 arquivo (`app.e2e-spec.ts`):**
+**17 testes em 1 arquivo (`app.e2e-spec.ts`):**
 
 | Grupo | # | Cenários |
 |---|---|---|
@@ -188,7 +188,7 @@ npm run test:e2e:back
 
 Pipeline dedicado via GitHub Actions (`.github/workflows/backend.yml`), acionado em push e pull request na branch `main` quando arquivos em `apps/back-end/**` são alterados.
 
-**Steps:** `npm ci` → `nx lint back-end` → `nx test back-end` (26 unitários) → `test:e2e:back` (15 E2E) → `nx build back-end`
+**Steps:** `npm ci` → `nx lint back-end` → `nx test back-end` (26 unitários) → `test:e2e:back` (17 E2E) → `nx build back-end`
 
 O pipeline sobe um service container PostgreSQL 16 para executar os testes E2E contra a API real com supertest. Todas as 4 etapas (lint, unitários, E2E, build) precisam passar para o pipeline ficar verde.
 

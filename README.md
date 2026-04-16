@@ -266,15 +266,15 @@ O projeto utiliza GitHub Actions com pipelines separados por app, acionados auto
 | **Frontend CI** | `.github/workflows/frontend.yml` | `apps/front-end/`**   | lint → format check → component tests → build |
 
 
-O pipeline do backend sobe um service container PostgreSQL para executar os testes E2E (15 testes com supertest contra a API real). Cada pipeline usa targets Nx isolados e path filters, garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa. Commits que alteram apenas arquivos fora de `apps/` (como README raiz, docs ou configurações do monorepo) não acionam nenhum pipeline — o CI roda somente quando código de um dos apps é modificado.
+O pipeline do backend sobe um service container PostgreSQL para executar os testes E2E (17 testes com supertest contra a API real). Cada pipeline usa targets Nx isolados e path filters, garantindo que alterações no frontend não disparam o pipeline do backend e vice-versa. Os pipelines também são acionados por mudanças em `package.json`, `package-lock.json` e nos próprios arquivos de workflow. Commits que alteram apenas docs ou configurações que não estão nos path filters não acionam nenhum pipeline.
 
 ### Pre-push hook
 
 Um git hook pre-push (`.githooks/pre-push`) executa automaticamente antes de cada `git push`:
 
 1. Testes unitários do backend (26 testes)
-2. Testes de componente do frontend (16 testes)
-3. Testes E2E do backend (15 testes — requer PostgreSQL rodando)
+2. Testes de componente do frontend (19 testes)
+3. Testes E2E do backend (17 testes — requer PostgreSQL rodando)
 
 Se qualquer etapa falhar, o push é bloqueado. O hook é ativado automaticamente após `npm install` via script `prepare`.
 

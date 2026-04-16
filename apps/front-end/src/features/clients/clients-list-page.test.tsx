@@ -60,7 +60,7 @@ describe('ClientsListPage', () => {
 
     renderPage();
 
-    expect(screen.getByText(/erro ao carregar clientes/i)).toBeInTheDocument();
+    expect(screen.getByText(/não foi possível carregar os clientes/i)).toBeInTheDocument();
     expect(screen.getByText(/tentar novamente/i)).toBeInTheDocument();
   });
 

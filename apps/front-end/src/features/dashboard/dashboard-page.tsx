@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useDashboard } from './hooks/use-dashboard';
 import { formatCurrency, formatDateTime } from '@/shared/lib/format';
+import { useDashboard } from './hooks/use-dashboard';
 
 const MONTH_LABELS = [
   'Jan',
@@ -37,7 +37,7 @@ export function DashboardPage() {
   if (isError) {
     return (
       <div className="p-8">
-        <p className="text-red-600">Erro ao carregar dashboard: {error?.message}</p>
+        <p className="text-red-600">Não foi possível carregar o dashboard. Tente novamente mais tarde.</p>
       </div>
     );
   }

@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useClients } from './hooks/use-clients';
-import { useCreateClient, useUpdateClient, useDeleteClient } from './hooks/use-client-mutations';
 import { useAuth } from '@/features/auth';
 import { api } from '@/shared/lib/api';
+import { useClients } from './hooks/use-clients';
+import { useCreateClient, useUpdateClient, useDeleteClient } from './hooks/use-client-mutations';
 import { useSelectedClients } from './selected-clients-context';
 import { ClientsToolbar } from './clients-toolbar';
 import { ClientCard } from './client-card';
@@ -132,7 +132,7 @@ export function ClientsListPage() {
   if (isError) {
     return (
       <div className="p-12 text-center">
-        <p className="text-red-600">Erro ao carregar clientes: {error?.message}</p>
+        <p className="text-red-600">Não foi possível carregar os clientes. Tente novamente.</p>
         <button onClick={refetch} className="mt-4 text-[#EC6724] hover:underline">
           Tentar novamente
         </button>

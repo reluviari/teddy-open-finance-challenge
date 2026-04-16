@@ -49,7 +49,7 @@ describe('DashboardPage', () => {
 
     renderPage();
 
-    expect(screen.getByText(/erro ao carregar dashboard/i)).toBeInTheDocument();
+    expect(screen.getByText(/não foi possível carregar o dashboard/i)).toBeInTheDocument();
   });
 
   it('should show empty state', () => {

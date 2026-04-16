@@ -51,7 +51,7 @@ describe('ClientDetailPage', () => {
 
     renderPage();
 
-    expect(screen.getByText(/erro ao carregar cliente/i)).toBeInTheDocument();
+    expect(screen.getByText(/não foi possível carregar os dados do cliente/i)).toBeInTheDocument();
   });
 
   it('should render client details with view count', () => {

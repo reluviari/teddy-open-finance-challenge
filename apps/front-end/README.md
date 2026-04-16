@@ -91,7 +91,7 @@ cp .env.example .env
 npm run dev:front   # Vite dev server com hot reload
 ```
 
-O dev server inicia em http://localhost:5173. O Vite proxy redireciona chamadas à API para http://localhost:3000 automaticamente. Requer o backend rodando (via Docker ou `npm run dev:back`).
+O dev server inicia em http://localhost:5173. As chamadas à API usam a variável `VITE_API_URL` (default `http://localhost:3000`). Requer o backend rodando (via Docker ou `npm run dev:back`).
 
 ## Features
 
@@ -127,11 +127,11 @@ Testes de componentes React com Vitest + Testing Library. Cobrem estados de load
 npm run test:front
 ```
 
-**16 testes em 5 arquivos:**
+**19 testes em 5 arquivos:**
 
 | Arquivo | # | Cenários |
 |---|---|---|
-| `login-page.test.tsx` | 3 | (1) Formulário renderizado com campos e botão, (2) Validação de campos vazios no submit, (3) Validação de senha com menos de 6 caracteres |
+| `login-page.test.tsx` | 6 | (1) Formulário renderizado, (2) Validação de campos vazios, (3) Validação de senha curta, (4) Loading durante login, (5) Erro de API, (6) Submit com dados válidos |
 | `clients-list-page.test.tsx` | 4 | (1) Estado de loading, (2) Erro com botão de retry, (3) Estado vazio, (4) Grid de cards com contagem |
 | `client-detail-page.test.tsx` | 3 | (1) Estado de loading, (2) Estado de erro, (3) Detalhe com contador de visualizações |
 | `client-form-page.test.tsx` | 2 | (1) Formulário de criação com 3 campos, (2) Validação de nome obrigatório |

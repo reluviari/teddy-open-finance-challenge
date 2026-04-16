@@ -141,6 +141,10 @@ npm run dev:front                    # frontend com hot reload (terminal 2)
 - Contador de acessos no detalhe do cliente
 - Auditoria com timestamps (`createdAt`, `updatedAt`, `deletedAt`)
 
+### Redis (opcional — não implementado no MVP)
+
+O escopo do desafio menciona Redis como opcional. O candidato natural seria o cache do endpoint `GET /clients/dashboard`, que executa 3 queries agregadas ao PostgreSQL. Com o volume atual (67 clientes), as queries executam em milissegundos — implementar cache seria otimização prematura. A proposta completa com diagrama de fluxo, estratégia de invalidação, código de implementação e considerações de produção está documentada em [docs/redis-cache-proposal.md](./docs/redis-cache-proposal.md).
+
 ## Stack
 
 ### Frontend (`apps/front-end`)
@@ -223,6 +227,7 @@ teddy-open-finance-challenge/
     ├── teddy-challenge-scope.md  Escopo do desafio
     ├── plan.md                   Plano de fases
     ├── ai-workflow.md            Fluxo de desenvolvimento com AI
+    ├── redis-cache-proposal.md   Proposta de cache Redis (não implementado no MVP)
     └── teddy-challenge-agents-setup.md  Definição dos agentes
 ```
 

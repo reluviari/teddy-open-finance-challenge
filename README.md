@@ -41,7 +41,7 @@ graph LR
 
 > Versão detalhada com módulos internos: veja o README de cada app ([back-end](./apps/back-end/README.md), [front-end](./apps/front-end/README.md))
 >
-> Versão em imagemSim: [docs/architecture.png](./docs/architecture.png)
+> Versão em imagem: [docs/architecture.png](./docs/architecture.png)
 
 ## Pré-requisitos
 

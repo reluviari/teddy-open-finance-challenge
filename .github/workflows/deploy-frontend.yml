@@ -21,8 +21,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build with Nx
-        run: NX_DAEMON=false npx nx build front-end
+      - name: Build
+        run: cd apps/front-end && npx vite build
 
       - name: Install Vercel CLI
         run: npm install -g vercel

@@ -5,7 +5,7 @@ import { formatCurrency, formatDateTime } from '@/shared/lib/format';
 export function ClientDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: client, isLoading, isError, error } = useClient(id!);
+  const { data: client, isLoading, isError } = useClient(id!);
 
   if (isLoading) {
     return (

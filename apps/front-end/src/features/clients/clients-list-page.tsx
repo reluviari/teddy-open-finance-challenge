@@ -42,7 +42,7 @@ export function ClientsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
 
-  const { data, isLoading, isError, error, refetch } = useClients({
+  const { data, isLoading, isError, refetch } = useClients({
     page: currentPage,
     limit: perPage,
   });

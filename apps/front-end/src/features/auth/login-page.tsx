@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useLogin } from './hooks/use-login';
@@ -24,8 +24,7 @@ export function LoginPage() {
   const sessionExpired = searchParams.get('expired') === 'true';
 
   const [waitingForServer, setWaitingForServer] = useState(false);
-  const pendingLoginRef = useRef<LoginRequest | null>(null);
-  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [pendingLogin, setPendingLogin] = useState<LoginRequest | null>(null);
 
   const {
     register,
@@ -50,38 +49,36 @@ export function LoginPage() {
     [loginMutation, handleLoginSuccess],
   );
 
-  const checkHealth = useCallback(async () => {
-    try {
-      const res = await fetch(HEALTH_CHECK_URL);
-      if (res.ok && pendingLoginRef.current) {
-        setWaitingForServer(false);
-        const credentials = pendingLoginRef.current;
-        pendingLoginRef.current = null;
-        attemptLogin(credentials);
+  useEffect(() => {
+    if (!waitingForServer || !pendingLogin) return;
+
+    const checkHealth = async () => {
+      try {
+        const res = await fetch(HEALTH_CHECK_URL);
+        if (res.ok) {
+          setWaitingForServer(false);
+          const credentials = pendingLogin;
+          setPendingLogin(null);
+          attemptLogin(credentials);
+        }
+      } catch {
+        // server still waking up
       }
-    } catch {
-      // server still waking up
-    }
-  }, [attemptLogin]);
-
-  useEffect(() => {
-    if (waitingForServer) {
-      checkHealth();
-      pollingRef.current = setInterval(checkHealth, POLL_INTERVAL_MS);
-    }
-    return () => {
-      if (pollingRef.current) clearInterval(pollingRef.current);
     };
-  }, [waitingForServer, checkHealth]);
+
+    checkHealth();
+    const interval = setInterval(checkHealth, POLL_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [waitingForServer, pendingLogin, attemptLogin]);
 
   useEffect(() => {
-    if (loginMutation.isError && isNetworkError(loginMutation.error) && pendingLoginRef.current) {
+    if (loginMutation.isError && isNetworkError(loginMutation.error) && pendingLogin) {
       setWaitingForServer(true);
     }
-  }, [loginMutation.isError, loginMutation.error]);
+  }, [loginMutation.isError, loginMutation.error, pendingLogin]);
 
   const handleLogin = (data: LoginRequest) => {
-    pendingLoginRef.current = data;
+    setPendingLogin(data);
     attemptLogin(data);
   };
 

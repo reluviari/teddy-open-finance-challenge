@@ -24,7 +24,7 @@ function formatMonth(yyyyMm: string): string {
 }
 
 export function DashboardPage() {
-  const { data, isLoading, isError, error } = useDashboard();
+  const { data, isLoading, isError } = useDashboard();
 
   if (isLoading) {
     return (

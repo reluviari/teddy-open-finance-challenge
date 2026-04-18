@@ -2,8 +2,13 @@ import { useState } from 'react';
 import { api } from '@/shared/lib/api';
 import { LoginRequest, LoginResponse } from '../types';
 
+interface MutateOptions {
+  onSuccess?: (response: LoginResponse) => void;
+  onError?: (error: Error) => void;
+}
+
 interface UseLoginResult {
-  mutate: (data: LoginRequest, options?: { onSuccess?: (response: LoginResponse) => void }) => void;
+  mutate: (data: LoginRequest, options?: MutateOptions) => void;
   isPending: boolean;
   isError: boolean;
   error: Error | null;
@@ -23,7 +28,9 @@ export function useLogin(): UseLoginResult {
         options?.onSuccess?.(response);
       })
       .catch((err) => {
-        setError(err instanceof Error ? err : new Error('Login failed'));
+        const resolvedError = err instanceof Error ? err : new Error('Login failed');
+        setError(resolvedError);
+        options?.onError?.(resolvedError);
       })
       .finally(() => {
         setIsPending(false);

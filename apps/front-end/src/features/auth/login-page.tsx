@@ -8,8 +8,7 @@ import { LoginRequest } from './types';
 const HEALTH_CHECK_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/healthz`;
 const POLL_INTERVAL_MS = 10_000;
 
-function isNetworkError(error: Error | null): boolean {
-  if (!error) return false;
+function isNetworkError(error: Error): boolean {
   const msg = error.message.toLowerCase();
   return (
     msg.includes('failed to fetch') || msg.includes('network') || msg.includes('err_connection')
@@ -44,6 +43,11 @@ export function LoginPage() {
     (data: LoginRequest) => {
       loginMutation.mutate(data, {
         onSuccess: (response) => handleLoginSuccess(data, response),
+        onError: (err) => {
+          if (isNetworkError(err)) {
+            setWaitingForServer(true);
+          }
+        },
       });
     },
     [loginMutation, handleLoginSuccess],
@@ -71,20 +75,17 @@ export function LoginPage() {
     return () => clearInterval(interval);
   }, [waitingForServer, pendingLogin, attemptLogin]);
 
-  useEffect(() => {
-    if (loginMutation.isError && isNetworkError(loginMutation.error) && pendingLogin) {
-      setWaitingForServer(true);
-    }
-  }, [loginMutation.isError, loginMutation.error, pendingLogin]);
-
   const handleLogin = (data: LoginRequest) => {
     setPendingLogin(data);
     attemptLogin(data);
   };
 
   const showServerWaiting = waitingForServer && !loginMutation.isPending;
-  const showError =
-    loginMutation.isError && !isNetworkError(loginMutation.error) && !waitingForServer;
+  const showNonNetworkError =
+    loginMutation.isError &&
+    loginMutation.error &&
+    !isNetworkError(loginMutation.error) &&
+    !waitingForServer;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -169,7 +170,7 @@ export function LoginPage() {
             )}
           </div>
 
-          {showError && (
+          {showNonNetworkError && (
             <p className="text-[12px] text-red-500">
               {loginMutation.error?.message || 'Erro ao fazer login'}
             </p>
